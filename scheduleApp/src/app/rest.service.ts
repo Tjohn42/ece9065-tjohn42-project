@@ -34,7 +34,7 @@ searchCourse(subject: any, course: any, component: any)
     return this.http.get<Course[]>(`http://localhost:5000/api/subject/${subject}`);
   }
   else{
-    console.log("hi");
+    console.log("");
     
   }
  
