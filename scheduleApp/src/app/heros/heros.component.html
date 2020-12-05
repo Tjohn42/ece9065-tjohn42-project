@@ -1,0 +1,37 @@
+
+<div id="courseSearch">
+  <button (click)= "search()" > Search for Class </button>
+</div>
+<div class="intro">
+  <h1>Search {{hero.subject}}</h1>
+  <label for="subject">Subject: </label><br>
+  <input type="text" id="subject" [(ngModel)]="subject" placeholder="Ex: ECE"><br>
+  <label for="cCode">Course Code: </label><br>
+  <input type="text" id="catalog" [(ngModel)]="course" placeholder="Ex: 1021B"><br>
+  <label for="component">Course Component: </label><br>
+  <input type="text" id="type" [(ngModel)]="component" placeholder="Ex: LEC"><br><br>
+  <button id="but" class="button" (click)="findCourse(subject,course,component)"> Search</button><button id="allCourses" class="button" (click)="search()"> All Courses</button><button onClick="window.location.reload();">Reload Page</button>
+
+  <ul class="courses" >
+    <li *ngFor="let course of courses;  let i=index">
+      <span class="badge"> {{course.subject}} {{course.courseNum}}--{{course.description}}</span><br>Days: {{course.days}} 
+      Start Time: {{course.startTime}} End Time: {{course.endTime}} Component: {{course.courseComp}} Section: {{course.section}} <button (click)="add(courses[i])">Add to Schedule</button>
+    </li>
+  </ul>
+  <ol id="courseList"> </ol>
+</div>
+
+<div class="schedule">
+  <h1>Schedule</h1><p id="warning">A schedule requires a name and at least 1 class</p>
+  <label for="sName">Schedule Name: </label><br>
+  <input type="text"  [(ngModel)]="scheduleName" id="schedule" placeholder="Ex: FallSchedule"> <button id="search" (click)="searchDB(scheduleName)"> Search</button>
+  <button id="delete" (click)="deleteSch(scheduleName)"> Delete</button><button id="deleteALL" (click)="deleteAll()" > Delete ALL Schedules</button>
+  <ul id="sch"> 
+    <li *ngFor="let sched of schedule">
+      <span class="badge"> {{sched.subject}} {{sched.courseNum}}--{{sched.description}}</span><br>Days: {{sched.days}} 
+      Start Time: {{sched.startTime}} End Time: {{sched.endTime}} Component: {{sched.courseComp}} Section: {{sched.section}} <button>Remove from Schedule</button>
+    </li>
+  </ul>
+  <button id="toDatabase" (click)="saveSchedule()"> Save Schedule</button> <button id="show" >All Schedules</button>
+  <ul id="all"></ul>
+</div>
