@@ -1,12 +1,29 @@
 const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
+
+const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
+
 var cors = require('cors');
 dotenv.config();
 
 app.use(express.json());
 app.use('/', express.static('static'));
 app.use(cors());
+
+app.use(bodyParser.json());
+
+app.post('/api/auth', function(req, res) {
+  const body = req.body;
+
+  const user = USERS.find(user => user.username == body.username);
+  if(!user || body.password != 'todo') return res.sendStatus(401);
+  
+  var token = jwt.sign({userID: user.id}, 'todo-app-super-shared-secret', {expiresIn: '2h'});
+  res.send({token});
+});
 
 const fs = require('fs');
 
