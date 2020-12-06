@@ -6,6 +6,12 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 
+var USERS = [
+    { 'id': 1, 'username': 'jemma' },
+    { 'id': 2, 'username': 'paul' },
+    { 'id': 3, 'username': 'sebastian' },
+];
+
 var cors = require('cors');
 dotenv.config();
 
@@ -19,6 +25,7 @@ app.post('/api/auth', function(req, res) {
   const body = req.body;
 
   const user = USERS.find(user => user.username == body.username);
+  console.log(user,"and", body.password);
   if(!user || body.password != 'todo') return res.sendStatus(401);
   
   var token = jwt.sign({userID: user.id}, 'todo-app-super-shared-secret', {expiresIn: '2h'});

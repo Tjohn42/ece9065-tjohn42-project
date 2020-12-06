@@ -6,7 +6,6 @@ import { HerosComponent } from './heros/heros.component';
 
 const routes: Routes = [
   { path: 'heros', component: HerosComponent, canActivate: [AuthGuard] },
- // { path: 'users', component: UserListComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent},
   { path: '**', redirectTo: 'heros'},
 ];
