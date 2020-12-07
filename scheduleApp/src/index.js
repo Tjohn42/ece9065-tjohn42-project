@@ -20,6 +20,8 @@ app.use('/', express.static('static'));
 app.use(cors());
 
 app.use(bodyParser.json());
+app.use(expressJwt({secret: 'todo-app-super-shared-secret',algorithms: ['HS256']}).unless({path: ['/api/auth']}));
+
 
 app.post('/api/auth', function(req, res) {
   const body = req.body;

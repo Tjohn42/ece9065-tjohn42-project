@@ -11,14 +11,15 @@ export class rest {
 
   allCourses : string = "http://localhost:5000/api/courses"
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.getItem('access_token')})
   };
 
   constructor(private http : HttpClient) { }
 
    getCourse()
 {
-    return this.http.get<Course[]>(this.allCourses);
+  
+    return this.http.get<Course[]>(this.allCourses, this.httpOptions);
 }
 
 searchCourse(subject: any, course: any, component: any)
