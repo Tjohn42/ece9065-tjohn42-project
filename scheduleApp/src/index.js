@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
+const bcrypt = require('bcryptjs');
 
 var USERS = [
     { 'id': 1, 'username': 'jemma' },
@@ -27,12 +28,32 @@ app.use(expressJwt({secret: 'schedule-secret',algorithms: ['HS256']}).unless({pa
 app.post('/api/auth', function(req, res) {
   const body = req.body;
 
-  const user = USERS.find(user => user.username == body.username);
-  console.log(user,"and", body.password);
-  if(!user || body.password != 'todo') return res.sendStatus(401);
-  
-  var token = jwt.sign({userID: user.id}, 'schedule-secret', {expiresIn: '2h'});
-  res.send({token});
+  con.getConnection(function(err, connection) {
+    if (err) throw err;
+    console.log("Connected!");
+    connection.query(" SELECT * FROM `Schedule` WHERE `Email` = ?",[body.username.toString()],function (err, result) {
+    connection.release();
+    if (err) throw err;
+    if(!result.length){
+        res.status(404).send("NO USER");
+    }
+    else
+    {
+        var user = result[0].Email;
+        const passwordHash = bcrypt.hashSync(body.password, 10);
+        const verified = bcrypt.compareSync('todo', passwordHash);
+        if(!user || !verified) return res.sendStatus(401);
+        var token = jwt.sign({userID: user.id}, 'schedule-secret', {expiresIn: '2h'});
+        res.send({token});
+    }
+    });
+  });
+
+
+  //const user = USERS.find(user => user.username == body.username);
+  //console.log(user,"and", body.password);
+
+
 });
 
 const fs = require('fs');
