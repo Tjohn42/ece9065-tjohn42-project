@@ -40,6 +40,7 @@ app.post('/api/auth', function(req, res) {
     else
     {
         var user = result[0].Email;
+        var password = result[0].Password;
         const passwordHash = bcrypt.hashSync(body.password, 10);
         const verified = bcrypt.compareSync('todo', passwordHash);
         if(!user || !verified) return res.sendStatus(401);
