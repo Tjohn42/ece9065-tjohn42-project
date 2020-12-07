@@ -8,7 +8,7 @@ import { SecureUserComponent } from './secure-user/secure-user.component';
 const routes: Routes = [
   { path: 'secure-user', component: SecureUserComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent},
-  { path: '**', redirectTo: 'secure-user'},
+  { path: '**', redirectTo: 'login'},
 ];
 
 @NgModule({

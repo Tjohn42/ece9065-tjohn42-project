@@ -20,7 +20,7 @@ export class LoginComponent {
     this.auth.login(this.username, this.password)
       .pipe(first())
       .subscribe(
-        result => this.router.navigate(['heros']),
+        result => this.router.navigate(['secure-user']),
         err => this.error = 'Could not authenticate'
       );
   }

@@ -1,4 +1,4 @@
-export class Schedule {
+export class List {
     ScheduleName: string;
     Subject: string;
     Course: string;
@@ -9,8 +9,9 @@ export class Schedule {
     StartTime: string;
     EndTime: string;
     Username: string;
+    NumberCourses: number; 
 
-    constructor(ScheduleName: string, Course: string, Subject: string, Component: string, Days: string, Section: string, Description: string, StartTime: string,EndTime: string, Username:string)
+    constructor(ScheduleName: string, Course: string, Subject: string, Component: string, Days: string, Section: string, Description: string, StartTime: string,EndTime: string, Username: string, NumberCourses: number)
     {
         this.ScheduleName = ScheduleName;
         this.Course = Course;
@@ -22,6 +23,7 @@ export class Schedule {
         this.Description = Description;
         this.StartTime = StartTime;
         this.Username = Username;
+        this.NumberCourses = NumberCourses;
 
     }
   }

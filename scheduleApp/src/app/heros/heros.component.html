@@ -20,18 +20,3 @@
   </ul>
   <ol id="courseList"> </ol>
 </div>
-
-<div class="schedule">
-  <h1>Schedule</h1><p id="warning">A schedule requires a name and at least 1 class</p>
-  <label for="sName">Schedule Name: </label><br>
-  <input type="text"  [(ngModel)]="scheduleName" id="schedule" placeholder="Ex: FallSchedule"> <button id="search" (click)="searchDB(scheduleName)"> Search</button>
-  <button id="delete" (click)="deleteSch(scheduleName)"> Delete</button><button id="deleteALL" (click)="deleteAll()" > Delete ALL Schedules</button>
-  <ul id="sch"> 
-    <li *ngFor="let sched of schedule">
-      <span class="badge"> {{sched.subject}} {{sched.courseNum}}--{{sched.description}}</span><br>Days: {{sched.days}} 
-      Start Time: {{sched.startTime}} End Time: {{sched.endTime}} Component: {{sched.courseComp}} Section: {{sched.section}} <button>Remove from Schedule</button>
-    </li>
-  </ul>
-  <button id="toDatabase" (click)="saveSchedule()"> Save Schedule</button> <button id="show" >All Schedules</button>
-  <ul id="all"></ul>
-</div>

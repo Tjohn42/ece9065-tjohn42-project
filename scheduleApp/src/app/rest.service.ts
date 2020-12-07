@@ -41,7 +41,7 @@ searchCourse(subject: any, course: any, component: any)
 }
 
 searchDB(scheduleName: any){
-  return this.http.get<Schedule[]>("http://localhost:5000/api/schedules/"+`${scheduleName}`)
+  return this.http.get<Schedule[]>("http://localhost:5000/api/schedules/"+`${scheduleName}`, this.httpOptions)
 
 }
 
@@ -52,6 +52,10 @@ deleteSch(schName: any){
 
 deleteAll(){
   return this.http.delete("http://localhost:5000/api/delete/");
+}
+
+getAllSchedules(user: any){
+  return this.http.get<Schedule[]>("http://localhost:5000/api/scheduleList/"+`${user}`,this.httpOptions);
 }
 
 }

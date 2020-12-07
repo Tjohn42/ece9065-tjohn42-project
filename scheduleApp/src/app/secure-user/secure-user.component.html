@@ -31,6 +31,11 @@
         Start Time: {{sched.startTime}} End Time: {{sched.endTime}} Component: {{sched.courseComp}} Section: {{sched.section}} <button>Remove from Schedule</button>
       </li>
     </ul>
-    <button id="toDatabase" (click)="saveSchedule()"> Save Schedule</button> <button id="show" >All Schedules</button>
+    <button id="toDatabase" (click)="saveSchedule()"> Save Schedule</button> <button (click)=" getSchedules()" id="show" >All Schedules</button>
+    <ul id="all"> 
+        <li *ngFor="let ls of final">
+          <span class="badge"> {{ls.Username}} {{ls.ScheduleName}}--</span><button>Edit Schedule</button>
+        </li>
+      </ul>
     <ul id="all"></ul>
   </div>

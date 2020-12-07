@@ -188,11 +188,12 @@ app.post('/api/schedule', (req, res) => {
     res.send(req.body);
 });
 
-app.get('/api/scheduleList', (req, res) => {
+app.get('/api/scheduleList/:userName', (req, res) => {
+    const getSchedule = req.params.userName;
     con.getConnection(function(err, connection) {
         if (err) throw err;
         console.log("Connected!");
-        connection.query(" SELECT * FROM `Schedule`",function (err, result) {
+        connection.query(" SELECT * FROM `Schedule`WHERE `Username` = ?",[getSchedule.toString()],function (err, result) {
         connection.release();
         if (err) throw err;
         var scheduleList=[], size = [], final=[],prev;
@@ -200,23 +201,8 @@ app.get('/api/scheduleList', (req, res) => {
             res.status(404).send("SCHEDULE DOES NOT EXIST");
         }
         else{
-            for(var i=0; i< result.length;i++){
-                if(result[i].ScheduleName !== prev)
-                {
-                    scheduleList.push(result[i]);
-                    size.push(1);
-                }else{
-                    size[size.length-1]++;
-                }
-                prev =result[i].ScheduleName;
-            }
-            for(var j=0; j<size.length;j++){
-                final.push({
-                    "ScheduleName": scheduleList[j].ScheduleName,
-                    "NumberCourses": size[j]
-                })
-            }
-            res.send(final);
+   
+            res.send(result);
         }
         });
       });

@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser'
 import { rest } from '../rest.service';
 import { Course } from '../course'
 import { Schedule } from '../schedule'
+import { List } from '../list';
 
 //var schedule: any[]= [];
 
@@ -20,6 +21,7 @@ export class SecureUserComponent implements OnInit {
   course = "";
   component = "";
   scheduleName = "";
+  numSch = "";
   hero: Hero = {
     id: 1,
     subject: "",
@@ -32,6 +34,8 @@ export class SecureUserComponent implements OnInit {
   };
   courses : Course[] = [];
   schedule : Schedule[] = [];
+  list : List[]=[];
+  final: List[]=[];
    
   search(): void {
 
@@ -92,8 +96,71 @@ export class SecureUserComponent implements OnInit {
       
 
     }
+    
+    getSchedules():  void {
+      this.rs.getAllSchedules("Test").subscribe //CHANGE TEST
+      (
+        (response)=>
+        {
+
+          this.list = response;
+          var size =[],scheduleList=[], prev;
+          for(var i=0; i< this.list.length;i++){
+            if(this.list[i].ScheduleName !== prev)
+            {
+                scheduleList.push(this.list[i]);
+                size.push(1);
+            }else{
+                size[size.length-1]++;
+            }
+            prev =this.list[i].ScheduleName;
+        }
+        for(var j=0; j<size.length;j++){
+            this.final.push({
+                "ScheduleName": scheduleList[j].ScheduleName,
+                "NumberCourses": size[j], 
+               "Course":"",
+                "Subject":"",
+                "Component":"",
+                "Days":"",
+                "Section":"",
+               "EndTime":"",
+                "Description":"",
+                "StartTime":"",
+                "Username":""
+            })
+        }
+          var i = 0;
+          console.log(this.final);
+          
+          //this.list = final;
+          // final.forEach(element => { 
+          //   console.log(element);
+          //   console.log(final);
+
+            
+          //   this.list[i].courseNum = element.Course;
+          //   this.list[i].subject = element.Subject;
+          //   this.list[i].courseComp = element.Component;
+          //   this.list[i].days = element.Days;
+          //   this.list[i].section = element.Section;
+          //   this.list[i].endTime = element.EndTime;
+          //   this.list[i].description = element.Description;
+          //   this.list[i].startTime = element.StartTime;
+          //   this.list[i].Username = element.Username;
+          //   this.list[i].ScheduleName = element.ScheduleName;
+          
+            
+ 
+          //   i++;
+          // });
+        },
+        (error) => console.log(error)
+      )
+     }
+
     searchDB(sch: any){
-      this.rs.searchDB(sch).subscribe //why error????
+      this.rs.searchDB(sch).subscribe
        (
          (response)=>
          {

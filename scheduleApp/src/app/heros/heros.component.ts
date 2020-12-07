@@ -16,7 +16,7 @@ import { Schedule } from '../schedule'
 
 })
 export class HerosComponent implements OnInit {
-  subject ="";
+  subject =""; 
   course = "";
   component = "";
   scheduleName = "";
