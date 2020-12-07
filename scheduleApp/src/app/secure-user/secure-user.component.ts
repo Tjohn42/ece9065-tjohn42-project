@@ -102,7 +102,6 @@ export class SecureUserComponent implements OnInit {
       (
         (response)=>
         {
-
           this.list = response;
           var size =[],scheduleList=[], prev;
           for(var i=0; i< this.list.length;i++){
@@ -119,46 +118,38 @@ export class SecureUserComponent implements OnInit {
             this.final.push({
                 "ScheduleName": scheduleList[j].ScheduleName,
                 "NumberCourses": size[j], 
-               "Course":"",
+                "Course":"",
                 "Subject":"",
                 "Component":"",
                 "Days":"",
                 "Section":"",
-               "EndTime":"",
+                "EndTime":"",
                 "Description":"",
                 "StartTime":"",
                 "Username":""
             })
         }
-          var i = 0;
           console.log(this.final);
-          
-          //this.list = final;
-          // final.forEach(element => { 
-          //   console.log(element);
-          //   console.log(final);
 
-            
-          //   this.list[i].courseNum = element.Course;
-          //   this.list[i].subject = element.Subject;
-          //   this.list[i].courseComp = element.Component;
-          //   this.list[i].days = element.Days;
-          //   this.list[i].section = element.Section;
-          //   this.list[i].endTime = element.EndTime;
-          //   this.list[i].description = element.Description;
-          //   this.list[i].startTime = element.StartTime;
-          //   this.list[i].Username = element.Username;
-          //   this.list[i].ScheduleName = element.ScheduleName;
-          
-            
- 
-          //   i++;
-          // });
         },
         (error) => console.log(error)
       )
      }
+     review(item: Schedule,j: any){
+      for(var i=0;i<this.final[j].NumberCourses;i++){
 
+       this.schedule.push(this.list[i])
+       this.schedule[i].courseNum = this.list[i].Course;
+       this.schedule[i].subject = this.list[i].Subject;
+       this.schedule[i].courseComp = this.list[i].Component;
+       this.schedule[i].days = this.list[i].Days;
+       this.schedule[i].section = this.list[i].Section;
+       this.schedule[i].endTime = this.list[i].EndTime;
+       this.schedule[i].description = this.list[i].Description;
+       this.schedule[i].startTime = this.list[i].StartTime;
+      }
+      //this.schedule.push(this.list[1])
+     }
     searchDB(sch: any){
       this.rs.searchDB(sch).subscribe
        (

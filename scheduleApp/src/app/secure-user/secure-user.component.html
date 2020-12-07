@@ -33,8 +33,8 @@
     </ul>
     <button id="toDatabase" (click)="saveSchedule()"> Save Schedule</button> <button (click)=" getSchedules()" id="show" >All Schedules</button>
     <ul id="all"> 
-        <li *ngFor="let ls of final">
-          <span class="badge"> {{ls.Username}} {{ls.ScheduleName}}--</span><button>Edit Schedule</button>
+        <li *ngFor="let ls of final; let i=index">
+          <span class="badge"> {{ls.Username}} {{ls.ScheduleName}}--</span><button (click)="review(final[i],i)">Edit Schedule</button>
         </li>
       </ul>
     <ul id="all"></ul>
