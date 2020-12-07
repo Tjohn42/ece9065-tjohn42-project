@@ -11,6 +11,7 @@ import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
+import { SecureUserComponent } from './secure-user/secure-user.component';
 //import { HeroesComponent } from './heroes/heroes.component';
 
 export function tokenGetter() {
@@ -21,7 +22,9 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     HerosComponent,
-    LoginComponent
+    SecureUserComponent,
+    LoginComponent,
+    SecureUserComponent
   ],
   imports: [
     BrowserModule,

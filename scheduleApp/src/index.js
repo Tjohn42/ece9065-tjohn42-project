@@ -20,7 +20,8 @@ app.use('/', express.static('static'));
 app.use(cors());
 
 app.use(bodyParser.json());
-app.use(expressJwt({secret: 'todo-app-super-shared-secret',algorithms: ['HS256']}).unless({path: ['/api/auth']}));
+app.use(expressJwt({secret: 'schedule-secret',algorithms: ['HS256']}).unless({path: ['/api/auth','/api/courses',{ url: /^\/api\/subject\/.*/, methods: ['GET']},
+{ url: /^\/api\/courses\/.*/, methods: ['GET'] }]}));
 
 
 app.post('/api/auth', function(req, res) {
@@ -30,7 +31,7 @@ app.post('/api/auth', function(req, res) {
   console.log(user,"and", body.password);
   if(!user || body.password != 'todo') return res.sendStatus(401);
   
-  var token = jwt.sign({userID: user.id}, 'todo-app-super-shared-secret', {expiresIn: '2h'});
+  var token = jwt.sign({userID: user.id}, 'schedule-secret', {expiresIn: '2h'});
   res.send({token});
 });
 

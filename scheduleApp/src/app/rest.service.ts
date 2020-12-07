@@ -18,7 +18,6 @@ export class rest {
 
    getCourse()
 {
-  
     return this.http.get<Course[]>(this.allCourses, this.httpOptions);
 }
 

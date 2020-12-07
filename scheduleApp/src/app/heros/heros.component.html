@@ -15,7 +15,7 @@
   <ul class="courses" >
     <li *ngFor="let course of courses;  let i=index">
       <span class="badge"> {{course.subject}} {{course.courseNum}}--{{course.description}}</span><br>Days: {{course.days}} 
-      Start Time: {{course.startTime}} End Time: {{course.endTime}} Component: {{course.courseComp}} Section: {{course.section}} <button (click)="add(courses[i])">Add to Schedule</button>
+      Start Time: {{course.startTime}} End Time: {{course.endTime}} Component: {{course.courseComp}} Section: {{course.section}} <!--<button (click)="add(courses[i])">Add to Schedule</button>-->
     </li>
   </ul>
   <ol id="courseList"> </ol>
