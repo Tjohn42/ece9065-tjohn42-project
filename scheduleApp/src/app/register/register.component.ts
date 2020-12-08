@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { rest } from '../rest.service';
 
 @Component({
@@ -19,13 +20,13 @@ export class RegisterComponent implements OnInit {
     //console.log(this.username, this.password,this.email);
 
     this.rs.registerUser(this.username,this.password,this.email).subscribe
-    (
+    ( 
       (response)=>
       {
-        console.log(response);
+        console.log(response.text);
         this.exist = "USER CREATED, WELCOME!"
       },
-      (error) => {this.exist = "USER EXISTS!"; console.log(error);}
+      (error) => {this.exist = "USER ALREADY EXISTS!"; console.log(error);}
     )
     
     // this.auth.login(this.username, this.password)
@@ -37,7 +38,7 @@ export class RegisterComponent implements OnInit {
   }
 
 
-  constructor(private rs : rest) { }
+  constructor(private rs : rest, private router: Router) { }
 
   ngOnInit(): void {
   }

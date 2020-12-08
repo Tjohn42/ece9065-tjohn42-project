@@ -31,9 +31,10 @@ app.post('/api/auth', function(req, res) {
   con.getConnection(function(err, connection) {
     if (err) throw err;
     console.log("Connected!");
-    connection.query(" SELECT * FROM `Schedule` WHERE `Email` = ?",[body.username.toString()],function (err, result) {
+    connection.query(" SELECT * FROM `Users` WHERE `Email` = ?",[body.email.toString()],function (err, result) {
     connection.release();
     if (err) throw err;
+    console.log(result[0].Password);
     if(!result.length){
         res.status(404).send("NO USER");
     }
@@ -41,8 +42,9 @@ app.post('/api/auth', function(req, res) {
     {
         var user = result[0].Email;
         var password = result[0].Password;
-        const passwordHash = bcrypt.hashSync(body.password, 10);
-        const verified = bcrypt.compareSync('todo', passwordHash);
+        //const passwordHash = bcrypt.hashSync(body.password, 10);
+        const verified = bcrypt.compareSync(body.password.toString(), result[0].Password);
+        console.log(verified);
         if(!user || !verified) return res.sendStatus(401);
         var token = jwt.sign({userID: user.id}, 'schedule-secret', {expiresIn: '2h'});
         res.send({token});
@@ -237,12 +239,15 @@ app.post('/api/User/:Username/:Email/:Password', (req, res) => {
         var userInfo = req.params;
            // console.log(userInfo);
             const passwordHash = bcrypt.hashSync(userInfo.Password, 10);
-            values = [userInfo.Username.toString(), userInfo.Email.toString(), passwordHash.toString(),0];
             con.query("INSERT IGNORE INTO `Users` SET Username= '"+`${userInfo.Username.toString()}`+"', Email='"+`${userInfo.Email.toString()}`+"', Password='"+`${passwordHash.toString()}`+"', isAdmin=0;", function (err, result) {
             if (err) throw err;
+            console.log(result.affectedRows);
             if(result.affectedRows == 0)
             {
                 res.status(404).send("User Exists!!");
+            }
+            else{
+                res.status(200).send({text: "Allgood"});
             }
             });
 
