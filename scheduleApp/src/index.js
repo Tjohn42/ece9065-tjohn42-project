@@ -22,7 +22,7 @@ app.use(cors());
 
 app.use(bodyParser.json());
 app.use(expressJwt({secret: 'schedule-secret',algorithms: ['HS256']}).unless({path: ['/api/auth','/api/courses',{ url: /^\/api\/subject\/.*/, methods: ['GET']},
-{ url: /^\/api\/courses\/.*/, methods: ['GET'] }]}));
+{ url: /^\/api\/courses\/.*/, methods: ['GET'] }, { url: /^\/api\/User\/.*/, methods: ['POST']}]}));
 
 
 app.post('/api/auth', function(req, res) {
@@ -228,6 +228,26 @@ app.get('/api/scheduleList/:userName', (req, res) => {
         }
         });
       });
+});
+
+app.post('/api/User/:Username/:Email/:Password', (req, res) => {
+    con.getConnection(function(err) {
+        if (err) throw err;
+        console.log("Connected!");
+        var userInfo = req.params;
+           // console.log(userInfo);
+            const passwordHash = bcrypt.hashSync(userInfo.Password, 10);
+            values = [userInfo.Username.toString(), userInfo.Email.toString(), passwordHash.toString(),0];
+            con.query("INSERT IGNORE INTO `Users` SET Username= '"+`${userInfo.Username.toString()}`+"', Email='"+`${userInfo.Email.toString()}`+"', Password='"+`${passwordHash.toString()}`+"', isAdmin=0;", function (err, result) {
+            if (err) throw err;
+            if(result.affectedRows == 0)
+            {
+                res.status(404).send("User Exists!!");
+            }
+            });
+
+      });
+    //res.send(req.body);
 });
 
 //PORT

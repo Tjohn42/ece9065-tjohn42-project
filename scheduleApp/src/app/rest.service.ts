@@ -58,4 +58,8 @@ getAllSchedules(user: any){
   return this.http.get<Schedule[]>("http://localhost:5000/api/scheduleList/"+`${user}`,this.httpOptions);
 }
 
+registerUser(Username: any, Password: any, Email: any){
+  return this.http.post("http://localhost:5000/api/User/"+`${Username}`+"/"+`${Email}`+"/"+`${Password}`,this.httpOptions);
+}
+
 }

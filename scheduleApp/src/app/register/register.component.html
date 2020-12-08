@@ -1,46 +1,19 @@
-<h1>Hello</h1>
-<div class="formcontainer">
-    <div class="formbody">
-        <form style="width:100%;" [formGroup]="myForm">
-            <div class="header">Register</div>
-            <div>
-                <mat-form-field style="width:100%;">
-                    <input type="text" formControlName="email" matInput placeholder="Email" id="email">
-                </mat-form-field>                
-                <span *ngIf="isValid('email')">Entered email is invalid</span>
-            </div>
-            <div>
-                <mat-form-field style="width:100%;">
-                    <input type="text" formControlName="username" matInput placeholder="Username" id="user">
-                </mat-form-field>
-                <span *ngIf="isValid('username')">Username is required</span>
-            </div>
-            <div>
-                <mat-form-field style="width:100%;">
-                    <input type="password" formControlName="password" matInput placeholder="Password" id="pass">
-                </mat-form-field>
-                <span *ngIf="isValid('password')">Password is a mandatory field</span>
-            </div>
-            <div>
-                <mat-form-field style="width:100%;">
-                    <input type="password" formControlName="cnfpass" matInput placeholder="Re-enter Password" id="cnfpass">
-                </mat-form-field>
-                <span *ngIf="isValid('cnfpass')">Password and confirm password should match</span>
-            </div>
-            <div style="margin-top:20px;">
-                <button class="form-btn" (click)="register()">Register</button>
-            </div>
-
-
-            <div style="text-align: center;">                
-                {{successMessage}}
-            </div>
-        </form>
-    </div>
-
-    <div>
-        <div style="width: 290px; padding: 20px;">
-            <button class="form-btn-hollow" (click)="movetologin()">Login</button>
-        </div>
-    </div>
-</div>
+<h4 *ngif="error">{{error}}</h4>
+<form (submit)="submit()">
+  <div class="form-group col-3">
+    <label for="username">Username</label>
+    <input type="text" name="username" class="form-control" [(ngModel)]="username"/>
+  </div>
+  <div class="form-group col-3">
+    <label for="email">Email</label>
+    <input type="text" name="email" class="form-control" [(ngModel)]="email"/>
+  </div>
+  <div class="form-group col-3">
+    <label for="password">Password</label>
+    <input type="password" name="password" class="form-control" [(ngModel)]="password" />
+  </div>
+  <div class="form-group col-3">
+    <button class="btn btn-primary" type="submit">Register</button>
+  </div>
+</form>
+{{exist}}
