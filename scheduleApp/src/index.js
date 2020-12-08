@@ -34,21 +34,20 @@ app.post('/api/auth', function(req, res) {
     connection.query(" SELECT * FROM `Users` WHERE `Email` = ?",[body.email.toString()],function (err, result) {
     connection.release();
     if (err) throw err;
-    console.log(result[0].Password);
-    if(!result.length){
-        res.status(404).send("NO USER");
+    var temp = "";
+    console.log(result.length);
+    if(result.length != 0)
+    {   
+        temp = result[0].Email
+    
+    const email = (temp == body.email);
+    const verified = bcrypt.compareSync(body.password.toString(), result[0].Password);
+    if(!email || !verified) return res.sendStatus(401);
+    var token = jwt.sign({userID: user.id}, 'schedule-secret', {expiresIn: '2h'});
+    res.send({token});
     }
-    else
-    {
-        var user = result[0].Email;
-        var password = result[0].Password;
-        //const passwordHash = bcrypt.hashSync(body.password, 10);
-        const verified = bcrypt.compareSync(body.password.toString(), result[0].Password);
-        console.log(verified);
-        if(!user || !verified) return res.sendStatus(401);
-        var token = jwt.sign({userID: user.id}, 'schedule-secret', {expiresIn: '2h'});
-        res.send({token});
-    }
+    return res.sendStatus(401);
+
     });
   });
 
