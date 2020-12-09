@@ -20,3 +20,12 @@
   </ul>
   <ol id="courseList"> </ol>
 </div>
+<div>
+  <button (click)="getSchedules()">Show Public Schedules</button>
+  <ul id="all"> 
+    <li *ngFor="let ls of final; let i=index">
+      <span class="badge"> {{ls.Username}}'s {{ls.ScheduleName}} Schedule -- Contains {{ls.NumberCourses}} Course(s)</span>
+    </li>
+  </ul>
+</div>
+

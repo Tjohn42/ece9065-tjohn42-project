@@ -22,6 +22,7 @@ export class SecureUserComponent implements OnInit {
   component = "";
   scheduleName = "";
   numSch = "";
+  check = 1;
   hero: Hero = {
     id: 1,
     subject: "",
@@ -37,7 +38,7 @@ export class SecureUserComponent implements OnInit {
   list : List[]=[];
   final: List[]=[];
 
-   
+  change(){this.check=0}
   search(): void {
     
       this.rs.getCourse().subscribe
@@ -100,7 +101,6 @@ export class SecureUserComponent implements OnInit {
     
     getSchedules():  void {
       var email = localStorage.getItem('Email')
-      console.log(email, "lalala");
       
       this.rs.getAllSchedules(email).subscribe //CHANGE TEST
       (
@@ -194,6 +194,7 @@ export class SecureUserComponent implements OnInit {
         this.schedule[i].ScheduleName = scheduleDB;
         this.schedule[i].Username = username;
         this.schedule[i].Email = email;
+        this.schedule[i].isPrivate = this.check;
       }
       
       this.rs.saveSchedule(this.schedule).subscribe

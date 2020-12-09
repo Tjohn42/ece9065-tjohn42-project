@@ -5,6 +5,7 @@ import { DomSanitizer } from '@angular/platform-browser'
 import { rest } from '../rest.service';
 import { Course } from '../course'
 import { Schedule } from '../schedule'
+import { List } from '../list';
 
 //var schedule: any[]= [];
 
@@ -32,6 +33,8 @@ export class HerosComponent implements OnInit {
   };
   courses : Course[] = [];
   schedule : Schedule[] = [];
+  list : List[]=[];
+  final: List[]=[];
    
   search(): void {
 
@@ -121,6 +124,47 @@ export class HerosComponent implements OnInit {
 
     }
 
+    getSchedules():  void {
+      var email = localStorage.getItem('Email')
+      
+      this.rs.getPublic().subscribe 
+      (
+        (response)=>
+        {
+          this.list = response;
+          var size =[],scheduleList=[], prev;
+          for(var i=0; i< this.list.length;i++){
+            if(this.list[i].ScheduleName !== prev)
+            {
+                scheduleList.push(this.list[i]);
+                size.push(1);
+            }else{
+                size[size.length-1]++;
+            }
+            prev =this.list[i].ScheduleName;
+        }
+        for(var j=0; j<size.length;j++){
+            this.final.push({
+                "ScheduleName": scheduleList[j].ScheduleName,
+                "NumberCourses": size[j], 
+                "Course":"",
+                "Subject":"",
+                "Component":"",
+                "Days":"",
+                "Section":"",
+                "EndTime":"",
+                "Description":"",
+                "StartTime":"",
+                "Username":this.list[j].Username
+            })
+        }
+          console.log(this.final);
+
+        },
+        (error) => console.log(error)
+      )
+     }
+
     saveSchedule(){
       console.log(this.schedule);
       
@@ -146,7 +190,6 @@ export class HerosComponent implements OnInit {
       this.schedule.push(course)
 
       console.log(this.schedule);
-      
       
     }
 

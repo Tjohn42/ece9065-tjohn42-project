@@ -10,8 +10,9 @@ export class Schedule {
     EndTime: string;
     Username: string;
     Email: string;
+    isPrivate: string;
 
-    constructor(ScheduleName: string, Course: string, Subject: string, Component: string, Days: string, Section: string, Description: string, StartTime: string,EndTime: string, Username:string,Email:string)
+    constructor(ScheduleName: string, Course: string, Subject: string, Component: string, Days: string, Section: string, Description: string, StartTime: string,EndTime: string, Username:string,Email:string,isPrivate:string)
     {
         this.ScheduleName = ScheduleName;
         this.Course = Course;
@@ -24,6 +25,7 @@ export class Schedule {
         this.StartTime = StartTime;
         this.Username = Username;
         this.Email = Email;
+        this.isPrivate = isPrivate;
 
     }
   }

@@ -21,7 +21,7 @@ app.use('/', express.static('static'));
 app.use(cors());
 
 app.use(bodyParser.json());
-app.use(expressJwt({secret: 'schedule-secret',algorithms: ['HS256']}).unless({path: ['/api/auth','/api/courses',{ url: /^\/api\/subject\/.*/, methods: ['GET']},
+app.use(expressJwt({secret: 'schedule-secret',algorithms: ['HS256']}).unless({path: ['/api/auth','/api/courses','/api/publicSchedule',{ url: /^\/api\/subject\/.*/, methods: ['GET']},
 { url: /^\/api\/courses\/.*/, methods: ['GET'] }, { url: /^\/api\/User\/.*/, methods: ['POST']}]}));
 
 
@@ -200,9 +200,9 @@ app.post('/api/schedule', (req, res) => {
         console.log("Connected!");
         var course = req.body;
         for(var i=0; i<course.length;i++){
-            values = [course[i].ScheduleName.toString(), course[i].subject.toString(), course[i].description.toString(), course[i].courseNum.toString(), 
-            course[i].courseComp.toString(), course[i].section.toString(), course[i].days.toString(), course[i].startTime.toString(), course[i].endTime.toString(),course[i].Username.toString(),course[i].Email.toString()];
-            con.query("INSERT INTO `Schedule` (ScheduleName, Subject, Description, Course, Component, Section, Days, StartTime, EndTime,Username,Email) VALUES (?)",[values], function (err, result) {
+            values = [course[i].ScheduleName.toString(), course[i].subject.toString(), course[i].description.toString(), course[i].courseNum.toString(),course[i].courseComp.toString(), 
+            course[i].section.toString(), course[i].days.toString(), course[i].startTime.toString(), course[i].endTime.toString(),course[i].Username.toString(),course[i].Email.toString(),course[i].isPrivate.toString()];
+            con.query("INSERT INTO `Schedule` (ScheduleName, Subject, Description, Course, Component, Section, Days, StartTime, EndTime,Username,Email,isPrivate) VALUES (?)",[values], function (err, result) {
             if (err) throw err;
             });
         }
@@ -223,7 +223,23 @@ app.get('/api/scheduleList/:userName', (req, res) => {
             res.status(404).send("SCHEDULE DOES NOT EXIST");
         }
         else{
-   
+            res.send(result);
+        }
+        });
+      });
+});
+
+app.get('/api/publicSchedule/', (req, res) => {
+    con.getConnection(function(err, connection) {
+        if (err) throw err;
+        console.log("Connected!");
+        connection.query(" SELECT * FROM `Schedule` WHERE `isPrivate` = 0",function (err, result) {
+        connection.release();
+        if (err) throw err;
+        if(!result.length){
+            res.status(404).send("SCHEDULE DOES NOT EXIST");
+        }
+        else{
             res.send(result);
         }
         });

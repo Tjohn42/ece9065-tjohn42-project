@@ -67,5 +67,7 @@ saveSchedule(scheduleName: any){
   
   return this.http.post("http://localhost:5000/api/schedule/",scheduleInfo,this.httpOptions);
 }
-
+getPublic(){
+  return this.http.get<Schedule[]>("http://localhost:5000/api/publicSchedule",this.httpOptions);
+}
 }
