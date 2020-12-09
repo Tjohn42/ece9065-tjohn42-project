@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Hero } from '../hero';
 import { DomSanitizer } from '@angular/platform-browser'
 //import { HEROES } from './mock-heros';
@@ -13,7 +13,7 @@ import { List } from '../list';
 @Component({
   selector: 'app-secure-user',
   templateUrl: './secure-user.component.html',
-  styleUrls: ['./secure-user.component.css']
+  styleUrls: ['./secure-user.component.css'],
 })
 
 export class SecureUserComponent implements OnInit {
@@ -36,9 +36,10 @@ export class SecureUserComponent implements OnInit {
   schedule : Schedule[] = [];
   list : List[]=[];
   final: List[]=[];
+
    
   search(): void {
-
+    
       this.rs.getCourse().subscribe
        (
          (response)=>
@@ -98,7 +99,10 @@ export class SecureUserComponent implements OnInit {
     }
     
     getSchedules():  void {
-      this.rs.getAllSchedules("Test").subscribe //CHANGE TEST
+      var email = localStorage.getItem('Email')
+      console.log(email, "lalala");
+      
+      this.rs.getAllSchedules(email).subscribe //CHANGE TEST
       (
         (response)=>
         {
@@ -126,7 +130,7 @@ export class SecureUserComponent implements OnInit {
                 "EndTime":"",
                 "Description":"",
                 "StartTime":"",
-                "Username":""
+                "Username":this.list[j].Username
             })
         }
           console.log(this.final);
@@ -136,6 +140,8 @@ export class SecureUserComponent implements OnInit {
       )
      }
      review(item: Schedule,j: any){
+       console.log(j);
+       
       for(var i=0;i<this.final[j].NumberCourses;i++){
 
        this.schedule.push(this.list[i])
@@ -147,6 +153,7 @@ export class SecureUserComponent implements OnInit {
        this.schedule[i].endTime = this.list[i].EndTime;
        this.schedule[i].description = this.list[i].Description;
        this.schedule[i].startTime = this.list[i].StartTime;
+      //this.schedule[i].Username = this.list[i].Username;
       }
       //this.schedule.push(this.list[1])
      }
@@ -179,8 +186,21 @@ export class SecureUserComponent implements OnInit {
 
     }
 
-    saveSchedule(){
-      console.log(this.schedule);
+    saveSchedule(scheduleDB: any){
+      const username = localStorage.getItem('username');
+      const email = localStorage.getItem('Email');
+      for(var i=0;i<this.schedule.length;i++)
+      {
+        this.schedule[i].ScheduleName = scheduleDB;
+        this.schedule[i].Username = username;
+        this.schedule[i].Email = email;
+      }
+      
+      this.rs.saveSchedule(this.schedule).subscribe
+      (
+        (response) =>{},
+        (error) => console.log(error)
+     )
       
     }
 

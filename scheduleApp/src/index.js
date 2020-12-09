@@ -27,7 +27,6 @@ app.use(expressJwt({secret: 'schedule-secret',algorithms: ['HS256']}).unless({pa
 
 app.post('/api/auth', function(req, res) {
   const body = req.body;
-
   con.getConnection(function(err, connection) {
     if (err) throw err;
     console.log("Connected!");
@@ -41,10 +40,11 @@ app.post('/api/auth', function(req, res) {
         temp = result[0].Email
     
     const email = (temp == body.email);
+    const user = result[0].Username;
     const verified = bcrypt.compareSync(body.password.toString(), result[0].Password);
     if(!email || !verified) return res.sendStatus(401);
-    var token = jwt.sign({userID: user.id}, 'schedule-secret', {expiresIn: '2h'});
-    res.send({token});
+    var token = jwt.sign({userID: email.id}, 'schedule-secret', {expiresIn: '2h'});
+    return res.send({token,user});
     }
     return res.sendStatus(401);
 
@@ -199,11 +199,10 @@ app.post('/api/schedule', (req, res) => {
         if (err) throw err;
         console.log("Connected!");
         var course = req.body;
-        for(var i=1; i<course.length;i++){
-            course[i];
-            values = [course[0].toString(), course[i].Name.toString(), course[i].Description.toString(), course[i].Number.toString(), 
-            course[i].Component.toString(), course[i].Section.toString(), course[i].Days.toString(), course[i].start.toString(), course[i].end.toString()];
-            con.query(" INSERT INTO `Schedule` (ScheduleName, Subject, Description, Course, Component, Section, Days, StartTime, EndTime) VALUES (?)",[values], function (err, result) {
+        for(var i=0; i<course.length;i++){
+            values = [course[i].ScheduleName.toString(), course[i].subject.toString(), course[i].description.toString(), course[i].courseNum.toString(), 
+            course[i].courseComp.toString(), course[i].section.toString(), course[i].days.toString(), course[i].startTime.toString(), course[i].endTime.toString(),course[i].Username.toString(),course[i].Email.toString()];
+            con.query("INSERT INTO `Schedule` (ScheduleName, Subject, Description, Course, Component, Section, Days, StartTime, EndTime,Username,Email) VALUES (?)",[values], function (err, result) {
             if (err) throw err;
             });
         }
@@ -216,7 +215,7 @@ app.get('/api/scheduleList/:userName', (req, res) => {
     con.getConnection(function(err, connection) {
         if (err) throw err;
         console.log("Connected!");
-        connection.query(" SELECT * FROM `Schedule`WHERE `Username` = ?",[getSchedule.toString()],function (err, result) {
+        connection.query(" SELECT * FROM `Schedule`WHERE `Email` = ?",[getSchedule.toString()],function (err, result) {
         connection.release();
         if (err) throw err;
         var scheduleList=[], size = [], final=[],prev;

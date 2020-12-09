@@ -12,6 +12,7 @@ export class AuthService {
       .pipe(
         map(result => {
           localStorage.setItem('access_token', result.token);
+          localStorage.setItem('username', result.user);
           return true;
         })
       );

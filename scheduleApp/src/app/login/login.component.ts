@@ -5,7 +5,8 @@ import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+
 })
 export class LoginComponent {
   public email: string;
@@ -16,6 +17,7 @@ export class LoginComponent {
 
   public submit() {
     console.log(this.email, this.password);
+    localStorage.setItem('Email', this.email);
     
     this.auth.login(this.email, this.password)
       .pipe(first())

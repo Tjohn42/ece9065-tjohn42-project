@@ -62,4 +62,10 @@ registerUser(Username: any, Password: any, Email: any){
   return this.http.post("http://localhost:5000/api/User/"+`${Username}`+"/"+`${Email}`+"/"+`${Password}`,this.httpOptions);
 }
 
+saveSchedule(scheduleName: any){
+  const scheduleInfo = JSON.stringify(scheduleName);
+  
+  return this.http.post("http://localhost:5000/api/schedule/",scheduleInfo,this.httpOptions);
+}
+
 }
