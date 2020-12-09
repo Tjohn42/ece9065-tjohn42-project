@@ -191,6 +191,14 @@ app.get('/api/schedules/:Name', (req, res) => {
 
 
 app.post('/api/schedule', (req, res) => {
+    let date_ob = new Date();
+    let date = ("0" + date_ob.getDate()).slice(-2);
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    let year = date_ob.getFullYear();
+    let hours = date_ob.getHours();
+    let minutes = date_ob.getMinutes();
+    let seconds = date_ob.getSeconds();
+    let time = (year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds);
     if((req.body[0].length > 15)){
         res.status(400).send({error: "Schedule Name must be less then 15 characters"});
         return
@@ -201,8 +209,9 @@ app.post('/api/schedule', (req, res) => {
         var course = req.body;
         for(var i=0; i<course.length;i++){
             values = [course[i].ScheduleName.toString(), course[i].subject.toString(), course[i].description.toString(), course[i].courseNum.toString(),course[i].courseComp.toString(), 
-            course[i].section.toString(), course[i].days.toString(), course[i].startTime.toString(), course[i].endTime.toString(),course[i].Username.toString(),course[i].Email.toString(),course[i].isPrivate.toString()];
-            con.query("INSERT INTO `Schedule` (ScheduleName, Subject, Description, Course, Component, Section, Days, StartTime, EndTime,Username,Email,isPrivate) VALUES (?)",[values], function (err, result) {
+            course[i].section.toString(), course[i].days.toString(), course[i].startTime.toString(), course[i].endTime.toString(),course[i].Username.toString(),course[i].Email.toString(),course[i].isPrivate.toString(),time];
+            console.log(values);
+            con.query("INSERT INTO `Schedule` (ScheduleName, Subject, Description, Course, Component, Section, Days, StartTime, EndTime,Username,Email, isPrivate, Date) VALUES (?)",[values], function (err, result) {
             if (err) throw err;
             });
         }
@@ -233,7 +242,7 @@ app.get('/api/publicSchedule/', (req, res) => {
     con.getConnection(function(err, connection) {
         if (err) throw err;
         console.log("Connected!");
-        connection.query(" SELECT * FROM `Schedule` WHERE `isPrivate` = 0",function (err, result) {
+        connection.query(" SELECT * FROM `Schedule` WHERE `isPrivate` = 0 ORDER BY Date DESC",function (err, result) {
         connection.release();
         if (err) throw err;
         if(!result.length){

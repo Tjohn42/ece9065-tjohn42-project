@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { Hero } from '../hero';
 import { DomSanitizer } from '@angular/platform-browser'
 //import { HEROES } from './mock-heros';
@@ -35,6 +35,7 @@ export class HerosComponent implements OnInit {
   schedule : Schedule[] = [];
   list : List[]=[];
   final: List[]=[];
+  findSchedule = "";
    
   search(): void {
 
@@ -164,6 +165,29 @@ export class HerosComponent implements OnInit {
         (error) => console.log(error)
       )
      }
+
+     review(sName: any,j: any){
+      this.schedule = [];
+      console.log(sName.ScheduleName,this.final[j].ScheduleName, j);
+
+      this.findSchedule = this.final[j].ScheduleName;
+
+      
+     for(var i=0;i<this.final[j].NumberCourses;i++){
+
+      this.schedule.push(this.list[i])
+      this.schedule[i].courseNum = this.list[i].Course;
+      this.schedule[i].subject = this.list[i].Subject;
+      this.schedule[i].courseComp = this.list[i].Component;
+      this.schedule[i].days = this.list[i].Days;
+      this.schedule[i].section = this.list[i].Section;
+      this.schedule[i].endTime = this.list[i].EndTime;
+      this.schedule[i].description = this.list[i].Description;
+      this.schedule[i].startTime = this.list[i].StartTime;
+     //this.schedule[i].Username = this.list[i].Username;
+     }
+     //this.schedule.push(this.list[1])
+    }
 
     saveSchedule(){
       console.log(this.schedule);

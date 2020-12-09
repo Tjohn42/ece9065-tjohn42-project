@@ -24,7 +24,13 @@
   <button (click)="getSchedules()">Show Public Schedules</button>
   <ul id="all"> 
     <li *ngFor="let ls of final; let i=index">
-      <span class="badge"> {{ls.Username}}'s {{ls.ScheduleName}} Schedule -- Contains {{ls.NumberCourses}} Course(s)</span>
+      <span class="badge"> {{ls.Username}}'s {{ls.ScheduleName}} Schedule -- Contains {{ls.NumberCourses}} Course(s)</span><button (click)="review(final[i],i)">Show Courses</button>
+      <ul *ngIf="ls.ScheduleName == findSchedule">
+        <li *ngFor="let sched of schedule">
+          <span  class="badge"> {{sched.subject}} {{sched.courseNum}}--{{sched.description}}</span><br>Days: {{sched.days}} 
+          Start Time: {{sched.startTime}} End Time: {{sched.endTime}} Component: {{sched.courseComp}} Section: {{sched.section}}
+        </li>
+      </ul>
     </li>
   </ul>
 </div>
