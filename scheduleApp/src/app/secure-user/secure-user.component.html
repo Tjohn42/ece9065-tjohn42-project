@@ -17,7 +17,7 @@
         Start Time: {{course.startTime}} End Time: {{course.endTime}} Component: {{course.courseComp}} Section: {{course.section}} <button (click)="add(courses[i])">Add to Schedule</button><button (click)="addReview(i)">Add Review</button>
         <ul *ngIf="(course.subject == findSubject) && (course.courseNum == findCourseNum) && (course.courseComp == findComp)">
             <li>
-                <textarea [(ngModel)]="userReview" placeholder="Max 255 Characters" rows="6" cols="70"></textarea><button (click)="submitReview(userReview)">Submit</button>
+                <textarea [(ngModel)]="userReview" placeholder="Max 255 Characters" rows="6" cols="70"></textarea><button (click)="submitReview(userReview,course.subject,course.courseNum,course.courseComp)">Submit</button>
             </li>
         </ul>
       </li>

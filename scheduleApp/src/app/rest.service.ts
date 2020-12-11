@@ -70,4 +70,8 @@ saveSchedule(scheduleName: any){
 getPublic(){
   return this.http.get<Schedule[]>("http://localhost:5000/api/publicSchedule",this.httpOptions);
 }
+addReview(review: any){
+  const reviewInfo = JSON.stringify(review);
+  return this.http.post<Schedule[]>("http://localhost:5000/api/addReview/",reviewInfo,this.httpOptions);
+}
 }

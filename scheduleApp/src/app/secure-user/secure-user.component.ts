@@ -52,8 +52,19 @@ export class SecureUserComponent implements OnInit {
 
    
   }
-  submitReview(reviewInfo: any){
-    console.log(reviewInfo);
+  submitReview(reviewInfo: any,sub: any,cour: any,com: any){
+    const username = localStorage.getItem('username');
+    var reviewList= []
+    reviewList.push(reviewInfo,username,sub,cour,com)
+    console.log(reviewList);
+    
+
+    this.rs.addReview(reviewList).subscribe
+    (
+      (response) =>{},
+      (error) => console.log(error)
+   )
+
     
   }
   search(): void {

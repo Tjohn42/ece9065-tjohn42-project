@@ -278,6 +278,20 @@ app.post('/api/User/:Username/:Email/:Password', (req, res) => {
     //res.send(req.body);
 });
 
+app.post('/api/addReview', (req, res) => {
+    con.getConnection(function(err) {
+        if (err) throw err;
+        console.log("Connected!");
+        var review = req.body;
+        values = [review[0].toString(),0, review[1].toString(),review[2].toString(),review[3].toString(),review[4].toString() ];
+        console.log(values);
+        con.query("INSERT INTO `Reviews` (uReview, hideReview, Username, Subject, Course, Component) VALUES (?)",[values], function (err, result) {
+        if (err) throw err;
+        });
+      });
+    res.send(req.body);
+});
+
 //PORT
 const port = process.env.PORT || 3001;
 console.log('The value of PORT is:', process.env.PORT);
