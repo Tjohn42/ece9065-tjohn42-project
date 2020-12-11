@@ -28,6 +28,7 @@ export class SecureUserComponent implements OnInit {
   findSubject = "";
   findCourseNum = "";
   findComp="";
+  userReview ="";
   hero: Hero = {
     id: 1,
     subject: "",
@@ -48,9 +49,12 @@ export class SecureUserComponent implements OnInit {
     this.findSubject = this.courses[j].subject;
     this.findCourseNum = this.courses[j].courseNum;
     this.findComp = this.courses[j].courseComp
-   // this.isReview =  true
-   console.log(this.findSubject, this.findCourseNum);
+
    
+  }
+  submitReview(reviewInfo: any){
+    console.log(reviewInfo);
+    
   }
   search(): void {
     
