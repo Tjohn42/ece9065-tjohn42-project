@@ -24,6 +24,10 @@ export class SecureUserComponent implements OnInit {
   numSch = "";
   check = 1;
   displaySch="";
+  isReview = false;
+  findSubject = "";
+  findCourseNum = "";
+  findComp="";
   hero: Hero = {
     id: 1,
     subject: "",
@@ -40,6 +44,14 @@ export class SecureUserComponent implements OnInit {
   final: List[]=[];
 
   change(){this.check=0}
+  addReview(j: any){
+    this.findSubject = this.courses[j].subject;
+    this.findCourseNum = this.courses[j].courseNum;
+    this.findComp = this.courses[j].courseComp
+   // this.isReview =  true
+   console.log(this.findSubject, this.findCourseNum);
+   
+  }
   search(): void {
     
       this.rs.getCourse().subscribe
