@@ -24,8 +24,9 @@
     <h1>Schedule</h1><p id="warning">A schedule requires a name and at least 1 class</p>
     <label for="sName">Schedule Name: </label><br>
     <input type="text"  [(ngModel)]="scheduleName" id="schedule" placeholder="Ex: FallSchedule"> <button id="search" (click)="searchDB(scheduleName)"> Search</button>
-    <button id="delete" (click)="deleteSch(scheduleName)"> Delete</button><button id="deleteALL" (click)="deleteAll()" > Delete ALL Schedules</button>
+    <button id="deleteALL" (click)="deleteAll()" > Delete ALL Schedules</button>
     <ul id="sch"> 
+        {{displaySch}}
       <li *ngFor="let sched of schedule">
         <span class="badge"> {{sched.subject}} {{sched.courseNum}}--{{sched.description}}</span><br>Days: {{sched.days}} 
         Start Time: {{sched.startTime}} End Time: {{sched.endTime}} Component: {{sched.courseComp}} Section: {{sched.section}} <button>Remove from Schedule</button>
@@ -34,7 +35,7 @@
     <button id="toDatabase" (click)="saveSchedule(scheduleName)"> Save Schedule</button> Make Public:<input type="checkbox" (click)="change()"> <button (click)=" getSchedules()" id="show" >All Schedules</button>
     <ul id="all"> 
         <li *ngFor="let ls of final; let i=index">
-          <span class="badge"> {{ls.Username}}'s {{ls.ScheduleName}} Schedule -- Contains {{ls.NumberCourses}} Course(s)</span><button (click)="review(final[i],i)">Edit Schedule</button>
+          <span class="badge"> {{ls.Username}}'s {{ls.ScheduleName}} Schedule -- Contains {{ls.NumberCourses}} Course(s)</span><button (click)="review(final[i],i)">Edit Schedule</button> <button id="delete" (click)="deleteSch(ls.ScheduleName)"> Delete</button>
         </li>
       </ul>
     <ul id="all"></ul>

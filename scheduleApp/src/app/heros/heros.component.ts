@@ -21,6 +21,7 @@ export class HerosComponent implements OnInit {
   course = "";
   component = "";
   scheduleName = "";
+  year = "";
   hero: Hero = {
     id: 1,
     subject: "",
@@ -48,6 +49,7 @@ export class HerosComponent implements OnInit {
            
            var i = 0;
            response.forEach(element => { 
+
             this.courses[i].courseNum = element.courseNum;
             this.courses[i].subject = element.subject;
             this.courses[i].courseComp = element.courseComp;
@@ -56,7 +58,28 @@ export class HerosComponent implements OnInit {
             this.courses[i].endTime = element.endTime;
             this.courses[i].description = element.description;
             this.courses[i].startTime = element.startTime;
-  
+            this.year = element.courseNum.toString().slice(0,1);
+      
+            switch (this.year) {
+              case "0":
+                this.courses[i].yearTaken = "Preliminary Course";
+                break;
+              case "1":
+                this.courses[i].yearTaken = ("1st Year Course");
+                break;
+              case "2":
+                this.courses[i].yearTaken = "2nd Year Course";
+                break;
+              case "3":
+                this.courses[i].yearTaken= ("3rd Year Course");
+                break;
+              case "4":
+                this.courses[i].yearTaken = ("4th Year Course");
+                break;
+              case "5":
+                this.courses[i].yearTaken = ("5th Year Course");
+                break;
+            }
              i++;
            });
            console.log(this.courses[0]);
@@ -66,7 +89,6 @@ export class HerosComponent implements OnInit {
     }
 
     findCourse(sub: any, cor: any, com: any){  
-      //console.log(this.hero.subject);
       
       console.log(sub);
       this.rs.searchCourse(sub, cor, com)?.subscribe //why error????
@@ -145,6 +167,7 @@ export class HerosComponent implements OnInit {
             prev =this.list[i].ScheduleName;
         }
         for(var j=0; j<size.length;j++){
+            var subDate = this.list[j].Date.slice(0,19)
             this.final.push({
                 "ScheduleName": scheduleList[j].ScheduleName,
                 "NumberCourses": size[j], 
@@ -156,7 +179,8 @@ export class HerosComponent implements OnInit {
                 "EndTime":"",
                 "Description":"",
                 "StartTime":"",
-                "Username":this.list[j].Username
+                "Username":this.list[j].Username,
+                "Date":subDate
             })
         }
           console.log(this.final);
@@ -168,8 +192,6 @@ export class HerosComponent implements OnInit {
 
      review(sName: any,j: any){
       this.schedule = [];
-      console.log(sName.ScheduleName,this.final[j].ScheduleName, j);
-
       this.findSchedule = this.final[j].ScheduleName;
 
       
@@ -184,7 +206,28 @@ export class HerosComponent implements OnInit {
       this.schedule[i].endTime = this.list[i].EndTime;
       this.schedule[i].description = this.list[i].Description;
       this.schedule[i].startTime = this.list[i].StartTime;
-     //this.schedule[i].Username = this.list[i].Username;
+      this.year =   this.list[i].Course.toString().slice(0,1);
+      
+      switch (this.year) {
+        case "0":
+          this.schedule[i].yearTaken = "Preliminary Course";
+          break;
+        case "1":
+          this.schedule[i].yearTaken = ("1st Year Course");
+          break;
+        case "2":
+          this.schedule[i].yearTaken = "2nd Year Course";
+          break;
+        case "3":
+          this.schedule[i].yearTaken= ("3rd Year Course");
+          break;
+        case "4":
+          this.schedule[i].yearTaken = ("4th Year Course");
+          break;
+        case "5":
+          this.schedule[i].yearTaken = ("5th Year Course");
+          break;
+      }
      }
      //this.schedule.push(this.list[1])
     }

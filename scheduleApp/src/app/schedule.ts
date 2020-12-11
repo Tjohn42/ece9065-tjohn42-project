@@ -11,8 +11,10 @@ export class Schedule {
     Username: string;
     Email: string;
     isPrivate: string;
+    date: string;
+    yearTaken: string;
 
-    constructor(ScheduleName: string, Course: string, Subject: string, Component: string, Days: string, Section: string, Description: string, StartTime: string,EndTime: string, Username:string,Email:string,isPrivate:string)
+    constructor(ScheduleName: string, Course: string, Subject: string, Component: string, Days: string, Section: string, Description: string, StartTime: string,EndTime: string, Username:string,Email:string,isPrivate:string, date:string, yearTaken:string)
     {
         this.ScheduleName = ScheduleName;
         this.Course = Course;
@@ -26,6 +28,8 @@ export class Schedule {
         this.Username = Username;
         this.Email = Email;
         this.isPrivate = isPrivate;
+        this.date = date;
+        this.yearTaken = yearTaken;
 
     }
   }

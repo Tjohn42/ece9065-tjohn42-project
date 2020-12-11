@@ -23,6 +23,7 @@ export class SecureUserComponent implements OnInit {
   scheduleName = "";
   numSch = "";
   check = 1;
+  displaySch="";
   hero: Hero = {
     id: 1,
     subject: "",
@@ -158,11 +159,11 @@ export class SecureUserComponent implements OnInit {
       //this.schedule.push(this.list[1])
      }
     searchDB(sch: any){
-      this.rs.searchDB(sch).subscribe
+      var email = localStorage.getItem('Email')
+      this.rs.searchDB(sch,email).subscribe
        (
          (response)=>
          {
-           console.log(response);
            
            this.schedule = response;
            var i = 0;
@@ -176,11 +177,16 @@ export class SecureUserComponent implements OnInit {
             this.schedule[i].endTime = element.EndTime;
             this.schedule[i].description = element.Description;
             this.schedule[i].startTime = element.StartTime;
+            this.schedule[i].ScheduleName = element.ScheduleName;
+            this.displaySch = element.ScheduleName + " Schedule"
   
              i++;
            });
          },
-         (error) => console.log(error)
+         (error) => {
+          console.log(error)
+          this.displaySch = "Schedule Not Found"
+        }
        )
       
 

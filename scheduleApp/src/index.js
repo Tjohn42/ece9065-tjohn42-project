@@ -172,16 +172,16 @@ app.delete('/api/delete/', (req, res) => {
 });
 
 
-app.get('/api/schedules/:Name', (req, res) => {
+app.get('/api/schedules/:Name/:Email', (req, res) => {
    const getSchedule = req.params.Name;
     con.getConnection(function(err, connection) {
         if (err) throw err;
         console.log("Connected!");
-        connection.query(" SELECT * FROM `Schedule` WHERE `ScheduleName` = ?",[getSchedule.toString()],function (err, result) {
+        connection.query(" SELECT * FROM `Schedule` WHERE `ScheduleName` ='"+`${req.params.Name}`+"' AND `Email` = '"+`${req.params.Email}`+"';",function (err, result) {
         connection.release();
         if (err) throw err;
         if(!result.length){
-            res.status(404).send("SCHEDULE DOES NOT EXIST");
+            res.status(404).send({text: "Schedule Not Found"});
         }
         else{res.send(result);}
         });

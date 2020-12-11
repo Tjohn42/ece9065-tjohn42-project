@@ -8,8 +8,9 @@ export class Course {
     description: string;
     startTime: string;
     endTime: string;
+    yearTaken: string
 
-    constructor(scheduleName: string, courseNum: string, subject: string, courseComp: string, days: string, section: string, description: string, startTime: string,endTime: string)
+    constructor(scheduleName: string, courseNum: string, subject: string, courseComp: string, days: string, section: string, description: string, startTime: string,endTime: string, yearTaken:string)
     {
         this.scheduleName = scheduleName;
         this.courseNum = courseNum;
@@ -20,6 +21,7 @@ export class Course {
         this.endTime = endTime;
         this.description = description;
         this.startTime = startTime;
+        this.yearTaken - yearTaken;
 
     }
   }

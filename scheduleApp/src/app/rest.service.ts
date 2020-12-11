@@ -40,14 +40,14 @@ searchCourse(subject: any, course: any, component: any)
  
 }
 
-searchDB(scheduleName: any){
-  return this.http.get<Schedule[]>("http://localhost:5000/api/schedules/"+`${scheduleName}`, this.httpOptions)
+searchDB(scheduleName: any,Email: any){
+  return this.http.get<Schedule[]>("http://localhost:5000/api/schedules/"+`${scheduleName}`+"/"+`${Email}`, this.httpOptions)
 
 }
 
 deleteSch(schName: any){
   
-  return this.http.delete("http://localhost:5000/api/delete/"+`${schName}`);
+  return this.http.delete("http://localhost:5000/api/delete/"+`${schName}`,this.httpOptions);
 }
 
 deleteAll(){

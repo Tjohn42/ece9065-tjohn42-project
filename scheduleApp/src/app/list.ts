@@ -9,9 +9,10 @@ export class List {
     StartTime: string;
     EndTime: string;
     Username: string;
-    NumberCourses: number; 
+    NumberCourses: number;
+    Date: string
 
-    constructor(ScheduleName: string, Course: string, Subject: string, Component: string, Days: string, Section: string, Description: string, StartTime: string,EndTime: string, Username: string, NumberCourses: number)
+    constructor(ScheduleName: string, Course: string, Subject: string, Component: string, Days: string, Section: string, Description: string, StartTime: string,EndTime: string, Username: string, NumberCourses: number, Date: string)
     {
         this.ScheduleName = ScheduleName;
         this.Course = Course;
@@ -24,6 +25,7 @@ export class List {
         this.StartTime = StartTime;
         this.Username = Username;
         this.NumberCourses = NumberCourses;
+        this.Date = Date;
 
     }
   }
