@@ -16,13 +16,21 @@ export class LoginComponent {
   constructor(private auth: AuthService, private router: Router) { }
 
   public submit() {
-    console.log(this.email, this.password);
     localStorage.setItem('Email', this.email);
     
     this.auth.login(this.email, this.password)
       .pipe(first())
       .subscribe(
-        result => this.router.navigate(['secure-user']),
+        result => {
+          console.log(typeof localStorage.getItem("admin") );
+          
+        if(localStorage.getItem("admin") == "1")
+        {      
+          this.router.navigate(['administrator'])
+        }
+        else{this.router.navigate(['secure-user'])}
+          
+      },
         err => this.error = 'Could not authenticate'
       );
   }

@@ -10,9 +10,12 @@ export class AuthService {
   login(email: string, password: string): Observable<boolean> {  
     return this.http.post<{token: string}>('http://localhost:5000/api/auth', {email: email, password: password})
       .pipe(
-        map(result => {
+        map(result => {        
           localStorage.setItem('access_token', result.token);
           localStorage.setItem('username', result.user);
+          if(result.admin){
+            localStorage.setItem('admin', result.admin);
+          }
           return true;
         })
       );

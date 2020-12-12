@@ -44,7 +44,13 @@ app.post('/api/auth', function(req, res) {
     const verified = bcrypt.compareSync(body.password.toString(), result[0].Password);
     if(!email || !verified) return res.sendStatus(401);
     var token = jwt.sign({userID: email.id}, 'schedule-secret', {expiresIn: '2h'});
-    return res.send({token,user});
+    if(result[0].isAdmin == 1)
+    {
+        admin = result[0].isAdmin;
+        return res.send({token,user,admin});
+    }
+    else{return res.send({token,user});}
+    
     }
     return res.sendStatus(401);
 

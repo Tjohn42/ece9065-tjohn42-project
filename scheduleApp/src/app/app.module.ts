@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { SecureUserComponent } from './secure-user/secure-user.component';
 import { RegisterComponent } from './register/register.component';
+import { AdministratorComponent } from './administrator/administrator.component';
 //import { HeroesComponent } from './heroes/heroes.component';
 
 export function tokenGetter() {
@@ -26,7 +27,8 @@ export function tokenGetter() {
     SecureUserComponent,
     LoginComponent,
     SecureUserComponent,
-    RegisterComponent
+    RegisterComponent,
+    AdministratorComponent
   ],
   imports: [
     BrowserModule,
