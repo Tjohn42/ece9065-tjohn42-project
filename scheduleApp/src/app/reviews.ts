@@ -5,9 +5,10 @@ export class Review {
     hideReview: string;
     Component: string;
     Username: string;
+    Email: string;
 
 
-    constructor( Course: string, Subject: string, Component: string, hideReview: string, uReview: string, Username: string)
+    constructor( Course: string, Subject: string, Component: string, hideReview: string, uReview: string, Username: string, Email: string)
     {
         this.Course = Course;
         this.Subject = Subject;
@@ -15,5 +16,6 @@ export class Review {
         this.hideReview = hideReview;
         this.uReview = uReview;
         this.Username = Username;
+        this.Email = Email;
     }
   }

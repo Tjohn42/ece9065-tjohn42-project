@@ -81,4 +81,13 @@ getReviews(username:any,subject: any,course: any,component: any){
   
   return this.http.get<Review[]>("http://localhost:5000/api/getReviews/"+`${username}`+"/"+`${subject}`+"/"+`${course}`+"/"+`${component}`, this.httpOptions);
 }
+getReviewsAdmin(username:any,subject: any,course: any,component: any){
+  return this.http.get<Review[]>("http://localhost:5000/api/getReviewsAdmin/"+`${username}`+"/"+`${subject}`+"/"+`${course}`+"/"+`${component}`, this.httpOptions);
+}
+hideReview(review: Review){
+  const reviewInfo = JSON.stringify(review);
+ // console.log(reviewInfo);
+  
+  return this.http.post<Review[]>("http://localhost:5000/api/flagReview",reviewInfo, this.httpOptions);
+}
 }

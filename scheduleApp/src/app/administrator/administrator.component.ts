@@ -62,8 +62,17 @@ export class AdministratorComponent implements OnInit {
     (
       (response) =>{},
       (error) => console.log(error)
-   )
+   ) 
+  }
 
+  hideReview(i: any,type: any){
+    if(type){this.reviews[i].hideReview = "0"}
+    else{this.reviews[i].hideReview = "1"}
+    this.rs.hideReview(this.reviews[i]).subscribe
+    (
+      (response) =>{},
+      (error) => console.log(error)
+   ) 
     
   }
 
@@ -72,7 +81,7 @@ export class AdministratorComponent implements OnInit {
     //const email = localStorage.getItem('Email');
     var getReviews= []
     getReviews.push(sub,cour,com)
-    this.rs.getReviews(username,sub,cour,com).subscribe
+    this.rs.getReviewsAdmin(username,sub,cour,com).subscribe
     (
       (response) =>{
         this.reviews = response;
@@ -86,6 +95,7 @@ export class AdministratorComponent implements OnInit {
          this.reviews[i].Subject = element.Subject;
          this.reviews[i].Course = element.Course;
          this.reviews[i].Component = element.Component;
+         this.reviews[i].Email = element.Email;
           i++;
         });
       },

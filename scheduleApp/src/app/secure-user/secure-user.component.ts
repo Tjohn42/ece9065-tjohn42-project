@@ -54,8 +54,9 @@ export class SecureUserComponent implements OnInit {
   }
   submitReview(reviewInfo: any,sub: any,cour: any,com: any){
     const username = localStorage.getItem('username');
+    const email = localStorage.getItem('Email');
     var reviewList= []
-    reviewList.push(reviewInfo,username,sub,cour,com)
+    reviewList.push(reviewInfo,username,sub,cour,com,email)
     console.log(reviewList);
     
     this.rs.addReview(reviewList).subscribe
@@ -69,7 +70,7 @@ export class SecureUserComponent implements OnInit {
 
   viewReviews(sub: any,cour: any,com: any){
     const username = localStorage.getItem('username');
-    //const email = localStorage.getItem('Email');
+   //const email = localStorage.getItem('Email');
     var getReviews= []
     getReviews.push(sub,cour,com)
     this.rs.getReviews(username,sub,cour,com).subscribe

@@ -289,9 +289,9 @@ app.post('/api/addReview', (req, res) => {
         if (err) throw err;
         console.log("Connected!");
         var review = req.body;
-        values = [review[0].toString(),0, review[1].toString(),review[2].toString(),review[3].toString(),review[4].toString() ];
+        values = [review[0].toString(),0, review[1].toString(),review[2].toString(),review[3].toString(),review[4].toString(),review[5].toString() ];
         console.log(values);
-        con.query("INSERT INTO `Reviews` (uReview, hideReview, Username, Subject, Course, Component) VALUES (?)",[values], function (err, result) {
+        con.query("INSERT INTO `Reviews` (uReview, hideReview, Username, Subject, Course, Component, Email) VALUES (?)",[values], function (err, result) {
         if (err) throw err;
         });
       });
@@ -314,6 +314,36 @@ app.get('/api/getReviews/:username/:subject/:course/:component', (req, res) => {
          });
        });
  });
+
+ app.get('/api/getReviewsAdmin/:username/:subject/:course/:component', (req, res) => {
+    console.log(req.params);
+
+     con.getConnection(function(err, connection) {
+         if (err) throw err;
+         console.log("Connected!");
+         connection.query(" SELECT * FROM `Reviews` WHERE `Subject` ='"+`${req.params.subject}`+"' AND `Course` = '"+`${req.params.course}`+"' AND `Component` = '"+`${req.params.component}`+"';",function (err, result) {
+         connection.release();
+         if (err) throw err;
+         if(!result.length){
+             res.status(404).send({text: "Schedule Not Found"});
+         }
+         else{res.send(result);}
+         });
+       });
+ });
+
+ app.post('/api/flagReview', (req, res) => {
+    con.getConnection(function(err) {
+        if (err) throw err;
+        console.log("Connected!");
+        var review = req.body;
+        console.log(review.hideReview);
+        con.query("UPDATE `Reviews` SET hideReview = '"+`${review.hideReview}`+"' WHERE uReview='"+`${review.uReview}`+"' AND Username='"+`${review.Username}`+"' AND Subject='"+`${review.Subject}`+"' AND Course='"+`${review.Course}`+"' AND  Component='"+`${review.Component}`+"' AND Email='"+`${review.Email}`+"';", function (err, result) {
+        if (err) throw err;
+        });
+      });
+    res.send(req.body);
+});
 
 //PORT
 const port = process.env.PORT || 3001;
