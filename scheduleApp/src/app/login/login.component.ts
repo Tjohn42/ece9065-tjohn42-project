@@ -22,10 +22,10 @@ export class LoginComponent {
       .pipe(first())
       .subscribe(
         result => {
-          console.log(typeof localStorage.getItem("admin") );
+          
           
         if(localStorage.getItem("admin") == "1")
-        {      
+        {              
           this.router.navigate(['administrator'])
         }
         else{this.router.navigate(['secure-user'])}

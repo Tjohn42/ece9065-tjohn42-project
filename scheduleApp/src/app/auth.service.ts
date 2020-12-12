@@ -13,9 +13,10 @@ export class AuthService {
         map(result => {        
           localStorage.setItem('access_token', result.token);
           localStorage.setItem('username', result.user);
-          if(result.admin){
+          
+          if(result.admin == 1){
             localStorage.setItem('admin', result.admin);
-          }
+          }else{localStorage.setItem('admin', "0");}
           return true;
         })
       );

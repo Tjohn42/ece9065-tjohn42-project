@@ -33,7 +33,7 @@ app.post('/api/auth', function(req, res) {
     connection.query(" SELECT * FROM `Users` WHERE `Email` = ?",[body.email.toString()],function (err, result) {
     connection.release();
     if (err) throw err;
-    var temp = "";
+    var temp = "", admin = 0;
     console.log(result.length);
     if(result.length != 0)
     {   
@@ -49,7 +49,7 @@ app.post('/api/auth', function(req, res) {
         admin = result[0].isAdmin;
         return res.send({token,user,admin});
     }
-    else{return res.send({token,user});}
+    else{return res.send({token,user,admin});}
     
     }
     return res.sendStatus(401);
@@ -344,6 +344,42 @@ app.get('/api/getReviews/:username/:subject/:course/:component', (req, res) => {
       });
     res.send(req.body);
 });
+
+
+app.get('/api/getUsersAdmin/:admin', (req, res) => {
+    console.log(req.params);
+
+     con.getConnection(function(err, connection) {
+         if (err) throw err;
+         console.log("Connected!");
+         req.params.admin
+         connection.query(" SELECT * FROM `Users`",function (err, result) {
+         connection.release();
+         if (err) throw err;
+         if(!result.length){
+             res.status(404).send({text: "Schedule Not Found"});
+         }
+         else{res.send(result);}
+         });
+       });
+ });
+
+ app.get('/api/getUsersComments/:email', (req, res) => {
+    console.log(req.params);
+
+     con.getConnection(function(err, connection) {
+         if (err) throw err;
+         console.log("Connected!");
+         connection.query(" SELECT * FROM `Reviews` WHERE `Email` ='"+`${req.params.email}`+"';",function (err, result) {
+         connection.release();
+         if (err) throw err;
+         if(!result.length){
+             res.status(404).send({text: "Schedule Not Found"});
+         }
+         else{res.send(result);}
+         });
+       });
+ });
 
 //PORT
 const port = process.env.PORT || 3001;

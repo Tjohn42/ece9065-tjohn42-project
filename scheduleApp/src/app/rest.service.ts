@@ -4,6 +4,7 @@ import { Course } from './course'
 import { HttpHeaders } from '@angular/common/http';
 import { Schedule } from './schedule';
 import { Review } from './reviews';
+import { User } from './users';
 
 @Injectable({
   providedIn: 'root'
@@ -89,5 +90,11 @@ hideReview(review: Review){
  // console.log(reviewInfo);
   
   return this.http.post<Review[]>("http://localhost:5000/api/flagReview",reviewInfo, this.httpOptions);
+}
+getUser(email: any){
+  return this.http.get<User[]>("http://localhost:5000/api/getUsersAdmin/"+`${email}`, this.httpOptions);
+}
+findComments(email: any){
+  return this.http.get<Review[]>("http://localhost:5000/api/getUsersComments/"+`${email}`, this.httpOptions);
 }
 }

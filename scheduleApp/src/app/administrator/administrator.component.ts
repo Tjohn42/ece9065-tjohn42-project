@@ -7,6 +7,7 @@ import { Course } from '../course'
 import { Schedule } from '../schedule'
 import { List } from '../list';
 import { Review } from '../reviews';
+import { User } from '../users';
 
 //var schedule: any[]= [];
 
@@ -45,6 +46,7 @@ export class AdministratorComponent implements OnInit {
   list : List[]=[];
   final: List[]=[];
   reviews: Review[]=[];
+  users: User[]=[];
 
   change(){this.check=0}
   addReview(j: any){
@@ -84,6 +86,7 @@ export class AdministratorComponent implements OnInit {
     this.rs.getReviewsAdmin(username,sub,cour,com).subscribe
     (
       (response) =>{
+        this.reviews = [];
         this.reviews = response;
         console.log(this.reviews);
         
@@ -104,12 +107,58 @@ export class AdministratorComponent implements OnInit {
 
   }
 
+  findComments(i:any){
+    console.log(this.users[i].Email);
+    this.rs.findComments(this.users[i].Email).subscribe
+    (
+      (response) =>{
+        this.reviews = [];
+        this.reviews = response;
+        console.log(this.reviews);
+        
+        var i = 0;
+        response.forEach(element => { 
+         this.reviews[i].uReview = element.uReview;
+         this.reviews[i].hideReview = element.hideReview;
+         this.reviews[i].Username = element.Username;
+         this.reviews[i].Subject = element.Subject;
+         this.reviews[i].Course = element.Course;
+         this.reviews[i].Component = element.Component;
+         this.reviews[i].Email = element.Email;
+          i++;
+        });
+      },
+      (error) => console.log(error)
+   ) 
+    
+  }
+
+  getUsers(){
+    const email = localStorage.getItem('Email');
+    this.rs.getUser(email).subscribe
+    (
+      (response) =>{
+        this.users = response
+        var i = 0;
+        response.forEach(element => { 
+         this.users[i].Username = element.Username;
+         this.users[i].Email = element.Email;
+         this.users[i].isAdmin = element.isAdmin;
+          i++;
+        });
+
+      },
+      (error) => console.log(error)
+   ) 
+  }
+
   search(): void {
     
       this.rs.getCourse().subscribe
        (
          (response)=>
          {
+           this.reviews = [];
            this.courses = response;
            console.log(response);
            

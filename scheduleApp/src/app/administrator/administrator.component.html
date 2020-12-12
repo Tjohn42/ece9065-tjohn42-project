@@ -46,5 +46,21 @@
           <span class="badge"> {{ls.Username}}'s {{ls.ScheduleName}} Schedule -- Contains {{ls.NumberCourses}} Course(s)</span><button (click)="review(final[i],i)">Edit Schedule</button> <button id="delete" (click)="deleteSch(ls.ScheduleName)"> Delete</button>
         </li>
       </ul>
-    <ul id="all"></ul>
+  </div>
+  <div class="users">
+      <button (click)="getUsers()">User Information</button>
+    <ul id="userList"> 
+        <li *ngFor="let user of users; let i=index">
+          <h3 style='display:inline'>Username: </h3> <p style='display:inline'>{{user.Username}}</p><h3 style='display:inline'> Email: </h3> <p style='display:inline'>{{user.Email}}</p>
+          <h3 style='display:inline'> Admin User: </h3> <p *ngIf="user.isAdmin == 0" style='display:inline'>No </p><p *ngIf="user.isAdmin == 1" style='display:inline'>Yes </p><br><button (click)="findComments(i)">User Comments</button><button (click)="makeAdmin(i)">Make Admin</button>
+          <ul *ngFor="let rev of reviews;  let i=index;">
+            <li *ngIf="(user.Username == rev.Username) && (user.Email == rev.Email)">
+                <h3 style='display:inline'>{{rev.Username}}'s Review: </h3> <p style='display:inline'>{{rev.uReview}}</p><button *ngIf="rev.hideReview==0"  title="Mark Innapropriate" (click)="hideReview(i,false)">Flag</button><button *ngIf="rev.hideReview==1"  title="Mark Safe" (click)="hideReview(i,true)">UnFlag</button>
+            </li>
+            <li *ngIf="(course.subject == findSubject) && (course.courseNum == findCourseNum) && (course.courseComp == findComp)">
+                <textarea [(ngModel)]="userReview" placeholder="Max 255 Characters" rows="6" cols="70"></textarea><button (click)="submitReview(userReview,course.subject,course.courseNum,course.courseComp)">Submit</button>
+            </li> 
+        </ul>
+        </li>
+      </ul>
   </div>

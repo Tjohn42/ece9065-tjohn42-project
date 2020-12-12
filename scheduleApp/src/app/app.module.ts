@@ -47,7 +47,7 @@ export function tokenGetter() {
     //TodoService,
     //UserService,
     AuthService,
-    AuthGuard
+    AuthGuard,
   ],
   bootstrap: [AppComponent]
 })
