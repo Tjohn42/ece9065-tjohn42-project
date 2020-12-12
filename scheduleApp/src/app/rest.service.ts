@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Course } from './course'
 import { HttpHeaders } from '@angular/common/http';
 import { Schedule } from './schedule';
+import { Review } from './reviews';
 
 @Injectable({
   providedIn: 'root'
@@ -73,5 +74,11 @@ getPublic(){
 addReview(review: any){
   const reviewInfo = JSON.stringify(review);
   return this.http.post<Schedule[]>("http://localhost:5000/api/addReview/",reviewInfo,this.httpOptions);
+}
+getReviews(username:any,subject: any,course: any,component: any){
+  //const reviewInfo = JSON.stringify(review);
+ // console.log(reviewInfo);
+  
+  return this.http.get<Review[]>("http://localhost:5000/api/getReviews/"+`${username}`+"/"+`${subject}`+"/"+`${course}`+"/"+`${component}`, this.httpOptions);
 }
 }

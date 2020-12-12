@@ -292,6 +292,23 @@ app.post('/api/addReview', (req, res) => {
     res.send(req.body);
 });
 
+app.get('/api/getReviews/:username/:subject/:course/:component', (req, res) => {
+    console.log(req.params);
+
+     con.getConnection(function(err, connection) {
+         if (err) throw err;
+         console.log("Connected!");
+         connection.query(" SELECT * FROM `Reviews` WHERE `Subject` ='"+`${req.params.subject}`+"' AND `Course` = '"+`${req.params.course}`+"' AND `Component` = '"+`${req.params.component}`+"' AND `hideReview` ='0';",function (err, result) {
+         connection.release();
+         if (err) throw err;
+         if(!result.length){
+             res.status(404).send({text: "Schedule Not Found"});
+         }
+         else{res.send(result);}
+         });
+       });
+ });
+
 //PORT
 const port = process.env.PORT || 3001;
 console.log('The value of PORT is:', process.env.PORT);

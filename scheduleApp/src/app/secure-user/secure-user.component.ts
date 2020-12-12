@@ -6,6 +6,7 @@ import { rest } from '../rest.service';
 import { Course } from '../course'
 import { Schedule } from '../schedule'
 import { List } from '../list';
+import { Review } from '../reviews';
 
 //var schedule: any[]= [];
 
@@ -43,14 +44,13 @@ export class SecureUserComponent implements OnInit {
   schedule : Schedule[] = [];
   list : List[]=[];
   final: List[]=[];
+  reviews: Review[]=[];
 
   change(){this.check=0}
   addReview(j: any){
     this.findSubject = this.courses[j].subject;
     this.findCourseNum = this.courses[j].courseNum;
-    this.findComp = this.courses[j].courseComp
-
-   
+    this.findComp = this.courses[j].courseComp   
   }
   submitReview(reviewInfo: any,sub: any,cour: any,com: any){
     const username = localStorage.getItem('username');
@@ -58,7 +58,6 @@ export class SecureUserComponent implements OnInit {
     reviewList.push(reviewInfo,username,sub,cour,com)
     console.log(reviewList);
     
-
     this.rs.addReview(reviewList).subscribe
     (
       (response) =>{},
@@ -67,6 +66,34 @@ export class SecureUserComponent implements OnInit {
 
     
   }
+
+  viewReviews(sub: any,cour: any,com: any){
+    const username = localStorage.getItem('username');
+    //const email = localStorage.getItem('Email');
+    var getReviews= []
+    getReviews.push(sub,cour,com)
+    this.rs.getReviews(username,sub,cour,com).subscribe
+    (
+      (response) =>{
+        this.reviews = response;
+        console.log(this.reviews);
+        
+        var i = 0;
+        response.forEach(element => { 
+         this.reviews[i].uReview = element.uReview;
+         this.reviews[i].hideReview = element.hideReview;
+         this.reviews[i].Username = element.Username;
+         this.reviews[i].Subject = element.Subject;
+         this.reviews[i].Course = element.Course;
+         this.reviews[i].Component = element.Component;
+          i++;
+        });
+      },
+      (error) => console.log(error)
+   )
+
+  }
+
   search(): void {
     
       this.rs.getCourse().subscribe
