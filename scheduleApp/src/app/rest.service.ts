@@ -97,4 +97,12 @@ getUser(email: any){
 findComments(email: any){
   return this.http.get<Review[]>("http://localhost:5000/api/getUsersComments/"+`${email}`, this.httpOptions);
 }
+makeAdmin(email: any){
+  const EmailJSON = JSON.stringify(email);
+  return this.http.post<Review[]>("http://localhost:5000/api/makeAdmin",EmailJSON, this.httpOptions);
+}
+deactivateAccount(email: any){
+  const EmailJSON = JSON.stringify(email);
+  return this.http.post<Review[]>("http://localhost:5000/api/deactivateAccount",EmailJSON, this.httpOptions);
+}
 }

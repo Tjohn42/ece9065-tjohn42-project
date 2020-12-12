@@ -348,7 +348,6 @@ app.get('/api/getReviews/:username/:subject/:course/:component', (req, res) => {
 
 app.get('/api/getUsersAdmin/:admin', (req, res) => {
     console.log(req.params);
-
      con.getConnection(function(err, connection) {
          if (err) throw err;
          console.log("Connected!");
@@ -380,6 +379,30 @@ app.get('/api/getUsersAdmin/:admin', (req, res) => {
          });
        });
  });
+
+ app.post('/api/makeAdmin', (req, res) => {
+    con.getConnection(function(err) {
+        if (err) throw err;
+        console.log("Connected!");
+        console.log(req.body);
+        con.query("UPDATE `Users` SET isAdmin = '"+`${req.body.isAdmin}`+"' WHERE Email='"+`${req.body.Email}`+"';", function (err, result) {
+        if (err) throw err;
+        });
+      });
+    res.send(req.body);
+});
+
+app.post('/api/deactivateAccount', (req, res) => {
+    con.getConnection(function(err) {
+        if (err) throw err;
+        console.log("Connected!");
+        console.log(req.body);
+        con.query("UPDATE `Users` SET activeUser = '"+`${req.body.activeUser}`+"' WHERE Email='"+`${req.body.Email}`+"';", function (err, result) {
+        if (err) throw err;
+        });
+      });
+    res.send(req.body);
+});
 
 //PORT
 const port = process.env.PORT || 3001;

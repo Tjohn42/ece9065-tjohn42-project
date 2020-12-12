@@ -135,19 +135,45 @@ export class AdministratorComponent implements OnInit {
 
   getUsers(){
     const email = localStorage.getItem('Email');
+    
     this.rs.getUser(email).subscribe
     (
       (response) =>{
         this.users = response
         var i = 0;
-        response.forEach(element => { 
+        response.forEach(element => {
          this.users[i].Username = element.Username;
          this.users[i].Email = element.Email;
          this.users[i].isAdmin = element.isAdmin;
+         this.users[i].activeUser = element.activeUser;
           i++;
         });
 
       },
+      (error) => console.log(error)
+   ) 
+  }
+
+  makeAdmin(i:any, type:any){
+    if(type){this.users[i].isAdmin = "1"}
+    else{this.users[i].isAdmin = "0"}
+
+    console.log(this.users[i].Email);
+    this.rs.makeAdmin(this.users[i]).subscribe
+    (
+      (response) =>{},
+      (error) => console.log(error)
+   ) 
+    
+  }
+  deactivateAccount(i:any, type: any){
+    if(type){this.users[i].activeUser = "1"}
+    else{this.users[i].activeUser = "0"}
+
+    console.log(this.users[i].Email);
+    this.rs.deactivateAccount(this.users[i]).subscribe
+    (
+      (response) =>{},
       (error) => console.log(error)
    ) 
   }
