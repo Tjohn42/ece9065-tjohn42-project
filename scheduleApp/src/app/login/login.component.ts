@@ -12,6 +12,7 @@ export class LoginComponent {
   public email: string;
   public password: string;
   public error: string;
+  admin = false;
 
   constructor(private auth: AuthService, private router: Router) { }
 
@@ -31,7 +32,14 @@ export class LoginComponent {
         else{this.router.navigate(['secure-user'])}
           
       },
-        err => this.error = 'Could not authenticate'
+        err =>{
+          if(err.status ==401){
+            this.admin = true;
+            this.error = 'This Account has been Suspended, Contact an Administrator: Admin@website.com'
+          }else{
+          this.error = 'Could not authenticate'
+          }
+        }
       );
   }
 }

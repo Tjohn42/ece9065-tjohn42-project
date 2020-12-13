@@ -7,11 +7,6 @@ const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 const bcrypt = require('bcryptjs');
 
-var USERS = [
-    { 'id': 1, 'username': 'jemma' },
-    { 'id': 2, 'username': 'paul' },
-    { 'id': 3, 'username': 'sebastian' },
-];
 
 var cors = require('cors');
 dotenv.config();
@@ -36,9 +31,11 @@ app.post('/api/auth', function(req, res) {
     var temp = "", admin = 0;
     console.log(result.length);
     if(result.length != 0)
-    {   
-        temp = result[0].Email
-    
+    {
+    if(result[0].activeUser == 0){
+        return res.send(401)
+    }
+    temp = result[0].Email
     const email = (temp == body.email);
     const user = result[0].Username;
     const verified = bcrypt.compareSync(body.password.toString(), result[0].Password);
@@ -52,7 +49,7 @@ app.post('/api/auth', function(req, res) {
     else{return res.send({token,user,admin});}
     
     }
-    return res.sendStatus(401);
+    return res.sendStatus(404);
 
     });
   });
