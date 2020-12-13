@@ -298,11 +298,16 @@ export class SecureUserComponent implements OnInit {
     }
 
     deleteAll(){
-      this.rs.deleteAll().subscribe
-      (
-        (response) =>{},
-        (error) => console.log(error)
-     )
+      if (confirm("Are you sure you want all Schedules Deleted?")) {
+        const username = localStorage.getItem('username');  
+        this.rs.deleteAllUsers(username).subscribe
+        (
+          (response) =>{},
+          (error) => console.log(error)
+       )
+      console.log();
+      
+      }
     }
     add(course: any){
       this.schedule.push(course)

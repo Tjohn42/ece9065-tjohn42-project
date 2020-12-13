@@ -1,15 +1,17 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { AuthGuard, AuthGuardAdmin } from './auth.guard';
+import { AuthGuard } from './auth.guard';
 import { HerosComponent } from './heros/heros.component';
 import { SecureUserComponent } from './secure-user/secure-user.component';
 import { RegisterComponent } from './register/register.component';
 import { AdministratorComponent } from './administrator/administrator.component';
+import { UserRolesGuard } from './user-roles.guard';
+
  
 const routes: Routes = [
   { path: 'secure-user', component: SecureUserComponent, canActivate: [AuthGuard] },
-  { path: 'administrator', component: AdministratorComponent, canActivate: [AuthGuard] },
+  { path: 'administrator', component: AdministratorComponent, canActivate: [UserRolesGuard] },
   { path: 'registerUser', component: RegisterComponent },
   { path: 'login', component: LoginComponent},
   { path: '**', redirectTo: 'login'},

@@ -52,8 +52,11 @@ deleteSch(schName: any){
   return this.http.delete("http://localhost:5000/api/delete/"+`${schName}`,this.httpOptions);
 }
 
+deleteAllUsers(email:any){
+  return this.http.delete("http://localhost:5000/api/deleteUser/"+`${email}`,this.httpOptions);
+}
 deleteAll(){
-  return this.http.delete("http://localhost:5000/api/delete/");
+  return this.http.delete("http://localhost:5000/api/delete/",this.httpOptions);
 }
 
 getAllSchedules(user: any){

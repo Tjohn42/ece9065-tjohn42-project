@@ -31,6 +31,7 @@ export class AdministratorComponent implements OnInit {
   findCourseNum = "";
   findComp="";
   userReview ="";
+  showUser = localStorage.getItem('username');
   hero: Hero = {
     id: 1,
     subject: "",
@@ -360,12 +361,14 @@ export class AdministratorComponent implements OnInit {
     }
 
     deleteAll(){
+      if (confirm("Are you sure you want ALL Schedules Deleted? This action will remove ALL user schedules and is not reversble")) {
       this.rs.deleteAll().subscribe
       (
         (response) =>{},
         (error) => console.log(error)
      )
     }
+  }
     add(course: any){
       this.schedule.push(course)
 

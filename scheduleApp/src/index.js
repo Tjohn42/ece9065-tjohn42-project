@@ -170,6 +170,25 @@ app.delete('/api/delete/:Name', (req, res) => {
       });
 });
 
+app.delete('/api/deleteUser/:email', (req, res) => {
+
+    const getSchedule = req.params.email;
+    con.getConnection(function(err, connection) {
+        if (err) throw err;
+        console.log("Connected!");
+        connection.query(" DELETE FROM `Schedule` WHERE `Email` = ?",[getSchedule.toString()],function (err, result) {
+        connection.release();
+        if (err) throw err;
+        console.log("LENGTH,", result.length, result);
+        if(!result){
+            res.status(404).send("SCHEDULE DOES NOT EXIST");
+        }
+        else{ console.log("HEREIS,", result); res.send(result);
+    }
+        });
+      });
+});
+
 app.delete('/api/delete/', (req, res) => {
     con.getConnection(function(err, connection) {
         if (err) throw err;
