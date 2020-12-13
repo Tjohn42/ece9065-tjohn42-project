@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer')
 
 
 var cors = require('cors');
@@ -17,8 +18,16 @@ app.use(cors());
 
 app.use(bodyParser.json());
 app.use(expressJwt({secret: 'schedule-secret',algorithms: ['HS256']}).unless({path: ['/api/auth','/api/courses','/api/publicSchedule',{ url: /^\/api\/subject\/.*/, methods: ['GET']},
-{ url: /^\/api\/courses\/.*/, methods: ['GET'] }, { url: /^\/api\/User\/.*/, methods: ['POST']}]}));
+{ url: /^\/api\/courses\/.*/, methods: ['GET'] }, { url: /^\/api\/User\/.*/, methods: ['POST']}, { url: /^\/confirmation\/.*/, methods: ['GET']}]}));
 
+const EMAIL_SECRET = 'asdf1093KMnzxcvnkljvasdu09123nlasdasdf';
+const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: 'burner69420email@gmail.com',
+      pass: 'tempkey123$%^789)',
+    },
+  });
 
 app.post('/api/auth', function(req, res) {
   const body = req.body;
@@ -34,6 +43,9 @@ app.post('/api/auth', function(req, res) {
     {
     if(result[0].activeUser == 0){
         return res.send(401)
+    }
+    if(result[0].confirmedUser == 0){
+        return res.send(403)
     }
     temp = result[0].Email
     const email = (temp == body.email);
@@ -259,13 +271,35 @@ app.get('/api/publicSchedule/', (req, res) => {
 });
 
 app.post('/api/User/:Username/:Email/:Password', (req, res) => {
+
+    // async email
+    jwt.sign(
+        {
+          Email: req.params.Email
+        },
+        EMAIL_SECRET,
+        {
+          expiresIn: '1d',
+        },
+        (err, emailToken) => {
+          const url = `http://localhost:5000/confirmation/${emailToken}`;
+
+          transporter.sendMail({
+            to: req.params.Email,
+            subject: 'Confirm Email',
+            html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
+          });
+        },
+      );
+
+
     con.getConnection(function(err) {
         if (err) throw err;
         console.log("Connected!");
         var userInfo = req.params;
            // console.log(userInfo);
             const passwordHash = bcrypt.hashSync(userInfo.Password, 10);
-            con.query("INSERT IGNORE INTO `Users` SET Username= '"+`${userInfo.Username.toString()}`+"', Email='"+`${userInfo.Email.toString()}`+"', Password='"+`${passwordHash.toString()}`+"', isAdmin=0;", function (err, result) {
+            con.query("INSERT IGNORE INTO `Users` SET Username= '"+`${userInfo.Username.toString()}`+"', Email='"+`${userInfo.Email.toString()}`+"', Password='"+`${passwordHash.toString()}`+"',confirmedUser =0, activeUser =1,isAdmin=0;", function (err, result) {
             if (err) throw err;
             console.log(result.affectedRows);
             if(result.affectedRows == 0)
@@ -280,6 +314,25 @@ app.post('/api/User/:Username/:Email/:Password', (req, res) => {
       });
     //res.send(req.body);
 });
+
+app.get('/confirmation/:token', async (req, res) => {
+    con.getConnection(function(err) {
+
+        try {
+            var id = jwt.verify(req.params.token, EMAIL_SECRET);
+            console.log("EEE",id.Email);
+          } catch (e) {
+            res.send('Error-Invalid Link');
+          }
+
+        if (err) throw err;
+        console.log("Connected!");
+        con.query("UPDATE `Users` SET confirmedUser = 1 WHERE Username ='"+`${id.Email.toString()}`+"';", function (err, result) {
+        if (err) throw err;
+        });
+      });
+    return res.redirect('http://localhost:4200/login');
+  });
 
 app.post('/api/addReview', (req, res) => {
     con.getConnection(function(err) {
