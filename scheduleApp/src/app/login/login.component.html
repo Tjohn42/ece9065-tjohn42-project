@@ -1,5 +1,5 @@
 
-<h4 *ngIf="error">{{error}}</h4>
+<h4  style='display:inline' *ngIf="error">{{error}}</h4><button style='display:inline' *ngIf="resend==true" (click)="resendEmail()">resend</button>
 <form (submit)="submit()">
   <div class="form-group col-3">
     <label for="email">Email</label>
@@ -24,3 +24,4 @@
     </div>   
   </div>
 </div>
+

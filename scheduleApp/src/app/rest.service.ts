@@ -64,6 +64,10 @@ registerUser(Username: any, Password: any, Email: any){
   return this.http.post("http://localhost:5000/api/User/"+`${Username}`+"/"+`${Email}`+"/"+`${Password}`,this.httpOptions);
 }
 
+registerUserGmail(Username: any, Email: any){
+  return this.http.post("http://localhost:5000/api/gmailUser/"+`${Username}`+"/"+`${Email}`,this.httpOptions);
+}
+
 saveSchedule(scheduleName: any){
   const scheduleInfo = JSON.stringify(scheduleName);
   
@@ -104,5 +108,15 @@ makeAdmin(email: any){
 deactivateAccount(email: any){
   const EmailJSON = JSON.stringify(email);
   return this.http.post<Review[]>("http://localhost:5000/api/deactivateAccount",EmailJSON, this.httpOptions);
+}
+doesExist(email: any){
+  return this.http.get<User[]>("http://localhost:5000/api/getUsers/"+`${email}`, this.httpOptions);
+}
+resendEmail(email: any){
+  return this.http.post("http://localhost:5000/api/resendEmail/"+`${email}`, this.httpOptions);
+}
+updateSchedule(schedule: any){
+  const scheduleINFO = JSON.stringify(schedule);
+  return this.http.post<Review[]>("http://localhost:5000/api/updateSchedule",scheduleINFO, this.httpOptions);
 }
 }

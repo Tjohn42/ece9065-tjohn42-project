@@ -17,8 +17,9 @@ app.use('/', express.static('static'));
 app.use(cors());
 
 app.use(bodyParser.json());
-app.use(expressJwt({secret: 'schedule-secret',algorithms: ['HS256']}).unless({path: ['/api/auth','/api/courses','/api/publicSchedule',{ url: /^\/api\/subject\/.*/, methods: ['GET']},
-{ url: /^\/api\/courses\/.*/, methods: ['GET'] }, { url: /^\/api\/User\/.*/, methods: ['POST']}, { url: /^\/confirmation\/.*/, methods: ['GET']}]}));
+app.use(expressJwt({secret: 'schedule-secret',algorithms: ['HS256']}).unless({path: ['/api/auth','/api/authGmail','/api/courses','/api/publicSchedule',{ url: /^\/api\/subject\/.*/, methods: ['GET']},
+{ url: /^\/api\/courses\/.*/, methods: ['GET'] }, { url: /^\/api\/User\/.*/, methods: ['POST']}, { url: /^\/api\/gmailUser\/.*/, methods: ['POST']}, { url: /^\/confirmation\/.*/, methods: ['GET']},
+{ url: /^\/api\/getUsers\/.*/, methods: ['GET']},{ url: /^\/api\/resendEmail\/.*/, methods: ['POST']}]}));
 
 const EMAIL_SECRET = 'asdf1093KMnzxcvnkljvasdu09123nlasdasdf';
 const transporter = nodemailer.createTransport({
@@ -270,29 +271,37 @@ app.get('/api/publicSchedule/', (req, res) => {
       });
 });
 
+
+
+
+app.post('/api/gmailUser/:Username/:Email/', (req, res) => {
+
+
+    con.getConnection(function(err) {
+        if (err) throw err;
+        console.log("Connected!");
+        var userInfo = req.params;
+           // console.log(userInfo);
+            var password = Math.random().toString(36).slice(2);
+            con.query("INSERT IGNORE INTO `Users` SET Username= '"+`${userInfo.Username.toString()}`+"', Email='"+`${userInfo.Email.toString()}`+"', Password='"+`${password}`+"',confirmedUser =1, activeUser =1,isAdmin=0;", function (err, result) {
+            if (err) throw err;
+            console.log(result.affectedRows);
+            if(result.affectedRows == 0)
+            {
+                res.status(404).send("User Exists!!");
+            }
+            else{
+                res.status(200).send({text: "Allgood"});
+            }
+            });
+
+      });
+    //res.send(req.body);
+});
+
+
+
 app.post('/api/User/:Username/:Email/:Password', (req, res) => {
-
-    // async email
-    jwt.sign(
-        {
-          Email: req.params.Email
-        },
-        EMAIL_SECRET,
-        {
-          expiresIn: '1d',
-        },
-        (err, emailToken) => {
-          const url = `http://localhost:5000/confirmation/${emailToken}`;
-
-          transporter.sendMail({
-            to: req.params.Email,
-            subject: 'Confirm Email',
-            html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
-          });
-        },
-      );
-
-
     con.getConnection(function(err) {
         if (err) throw err;
         console.log("Connected!");
@@ -307,6 +316,24 @@ app.post('/api/User/:Username/:Email/:Password', (req, res) => {
                 res.status(404).send("User Exists!!");
             }
             else{
+                jwt.sign(
+                    {
+                      Email: req.params.Email
+                    },
+                    EMAIL_SECRET,
+                    {
+                      expiresIn: '1d',
+                    },
+                    (err, emailToken) => {
+                      const url = `http://localhost:5000/confirmation/${emailToken}`;
+            
+                      transporter.sendMail({
+                        to: req.params.Email,
+                        subject: 'Confirm Email',
+                        html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
+                      });
+                    },
+                  );
                 res.status(200).send({text: "Allgood"});
             }
             });
@@ -333,6 +360,29 @@ app.get('/confirmation/:token', async (req, res) => {
       });
     return res.redirect('http://localhost:4200/login');
   });
+
+  app.post('/api/resendEmail/:email', (req, res) => {
+    jwt.sign(
+        {
+          Email: req.params.email
+        },
+        EMAIL_SECRET,
+        {
+          expiresIn: '1d',
+        },
+        (err, emailToken) => {
+          const url = `http://localhost:5000/confirmation/${emailToken}`;
+
+          transporter.sendMail({
+            to: req.params.email,
+            subject: 'Confirm Email',
+            html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
+          });
+        },
+      );
+
+      res.status(200).send({text: "Resent"});
+});
 
 app.post('/api/addReview', (req, res) => {
     con.getConnection(function(err) {
@@ -450,6 +500,53 @@ app.post('/api/deactivateAccount', (req, res) => {
         con.query("UPDATE `Users` SET activeUser = '"+`${req.body.activeUser}`+"' WHERE Email='"+`${req.body.Email}`+"';", function (err, result) {
         if (err) throw err;
         });
+      });
+    res.send(req.body);
+});
+app.get('/api/getUsers/:Email', (req, res) => {
+    console.log("Hefffre");
+  
+    console.log(req.params);
+
+     con.getConnection(function(err, connection) {
+         if (err) throw err;
+         console.log("Connected!");
+         connection.query(" SELECT Email,Username,activeUser,confirmedUser,isAdmin FROM `Users` WHERE `Email` ='"+`${req.params.Email}`+"';",function (err, result) {
+         connection.release();
+         if (err) throw err;
+         if(!result.length){
+             res.status(404).send({text: "User Not Found"});
+         }
+         else{res.send(result);}
+         });
+       });
+ });
+
+ app.post('/api/updateSchedule', (req, res) => {
+    let date_ob = new Date();
+    let date = ("0" + date_ob.getDate()).slice(-2);
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    let year = date_ob.getFullYear();
+    let hours = date_ob.getHours();
+    let minutes = date_ob.getMinutes();
+    let seconds = date_ob.getSeconds();
+    let time = (year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds);
+    if((req.body[0].length > 15)){
+        res.status(400).send({error: "Schedule Name must be less then 15 characters"});
+        return
+    }
+    con.getConnection(function(err) {
+        if (err) throw err;
+        console.log("Connected!");
+        var course = req.body;
+        for(var i=0; i<course.length;i++){
+            values = [course[i].ScheduleName.toString(), course[i].subject.toString(), course[i].description.toString(), course[i].courseNum.toString(),course[i].courseComp.toString(), 
+            course[i].section.toString(), course[i].days.toString(), course[i].startTime.toString(), course[i].endTime.toString(),course[i].Username.toString(),course[i].Email.toString(),course[i].isPrivate.toString(),time];
+            console.log(values);
+            con.query("INSERT INTO `Schedule` (ScheduleName, Subject, Description, Course, Component, Section, Days, StartTime, EndTime,Username,Email, isPrivate, Date) VALUES (?)",[values], function (err, result) {
+            if (err) throw err;
+            });
+        }
       });
     res.send(req.body);
 });

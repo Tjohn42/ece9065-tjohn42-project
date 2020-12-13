@@ -18,6 +18,21 @@ export class RegisterComponent implements OnInit {
 
   public submit() {
     //console.log(this.username, this.password,this.email);
+    console.log(this.username);
+    
+    if(this.username == null)
+    {
+      this.exist = "Username must not be empty!"
+      return
+    }
+    else if(this.password==null){
+      this.exist = "Password must not be empty!"
+      return
+    }
+    else if( this.email==null){
+      this.exist = "Email must not be empty!"
+      return
+    }
 
     this.rs.registerUser(this.username,this.password,this.email).subscribe
     ( 

@@ -30,6 +30,7 @@ export class SecureUserComponent implements OnInit {
   findCourseNum = "";
   findComp="";
   userReview ="";
+  update = false;
   hero: Hero = {
     id: 1,
     subject: "",
@@ -94,7 +95,28 @@ export class SecureUserComponent implements OnInit {
    )
 
   }
-
+  removeCourse(i:any){
+    console.log(i);
+    this.update = true;
+    console.log(this.schedule[i]);
+    this.schedule.splice(i,1);
+    console.log(this.schedule);
+  }
+  updateSchedule(){
+    console.log(this.final[0].ScheduleName);
+    console.log(this.schedule);
+    this.deleteSch(this.final[0].ScheduleName)
+    this.rs.updateSchedule(this.schedule).subscribe
+    (
+      (response) =>{
+        console.log(response);
+        
+      },
+      (error) => console.log(error)
+   )
+    
+    
+  }
   search(): void {
     
       this.rs.getCourse().subscribe
@@ -293,7 +315,7 @@ export class SecureUserComponent implements OnInit {
   constructor(private rs : rest) { }
 
   ngOnInit(): void {
-    
+    this.update=false;
   }
   selectedHero: Hero | undefined;
   onSelect(hero: Hero): void {
