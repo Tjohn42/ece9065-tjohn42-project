@@ -56,6 +56,12 @@ export class AdministratorComponent implements OnInit {
     this.findComp = this.courses[j].courseComp   
   }
   submitReview(reviewInfo: any,sub: any,cour: any,com: any){
+    sub = sub.trim();
+    sub =sub.toUpperCase();
+    cour = cour.trim();
+    cour =cour.toUpperCase();
+    com = com.trim();
+    com =com.toUpperCase();
     const username = localStorage.getItem('username');
     var reviewList= []
     reviewList.push(reviewInfo,username,sub,cour,com)
@@ -80,6 +86,12 @@ export class AdministratorComponent implements OnInit {
   }
 
   viewReviews(sub: any,cour: any,com: any){
+    sub = sub.trim();
+    sub =sub.toUpperCase();
+    cour = cour.trim();
+    cour =cour.toUpperCase();
+    com = com.trim();
+    com =com.toUpperCase();
     const username = localStorage.getItem('username');
     //const email = localStorage.getItem('Email');
     var getReviews= []
@@ -210,6 +222,12 @@ export class AdministratorComponent implements OnInit {
 
     findCourse(sub: any, cor: any, com: any){  
       //console.log(this.hero.subject);
+      sub = sub.trim();
+      sub =sub.toUpperCase();
+      cor = cor.trim();
+      cor =cor.toUpperCase();
+      com = com.trim();
+      com =com.toUpperCase();
       
       console.log(sub);
       this.rs.searchCourse(sub, cor, com)?.subscribe //why error????
@@ -335,6 +353,7 @@ export class AdministratorComponent implements OnInit {
     saveSchedule(scheduleDB: any){
       const username = localStorage.getItem('username');
       const email = localStorage.getItem('Email');
+      scheduleDB = scheduleDB.trim();
       for(var i=0;i<this.schedule.length;i++)
       {
         this.schedule[i].ScheduleName = scheduleDB;

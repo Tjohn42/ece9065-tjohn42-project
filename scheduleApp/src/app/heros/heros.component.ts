@@ -20,6 +20,7 @@ export class HerosComponent implements OnInit {
   subject =""; 
   course = "";
   component = "";
+  keywords=""
   scheduleName = "";
   year = "";
   hero: Hero = {
@@ -88,10 +89,19 @@ export class HerosComponent implements OnInit {
        )
     }
 
-    findCourse(sub: any, cor: any, com: any){  
+    findCourse(sub: any, cor: any, com: any,key:any){  
       
       console.log(sub);
-      this.rs.searchCourse(sub, cor, com)?.subscribe //why error????
+      sub = sub.trim();
+      sub =sub.toUpperCase();
+      cor = cor.trim();
+      cor =cor.toUpperCase();
+      com = com.trim();
+      com =com.toUpperCase();
+      key = key.trim();
+      key =key.toUpperCase();
+      
+      this.rs.searchCourse(sub, cor, com,key)?.subscribe //why error????
        (
          (response)=>
          {

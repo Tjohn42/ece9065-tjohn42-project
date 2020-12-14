@@ -7,8 +7,10 @@
   <label for="cCode">Course Code: </label><br>
   <input type="text" id="catalog" [(ngModel)]="course" placeholder="Ex: 1021B"><br>
   <label for="component">Course Component: </label><br>
-  <input type="text" id="type" [(ngModel)]="component" placeholder="Ex: LEC"><br><br>
-  <button id="but" class="button" (click)="findCourse(subject,course,component)"> Search</button><button id="allCourses" class="button" (click)="search()"> All Courses</button><button onClick="window.location.reload();">Reload Page</button>
+  <input type="text" id="type" [(ngModel)]="component" placeholder="Ex: LEC"><br>
+  <label for="keywords">Keywords: </label><br>
+  <input type="text" id="keyword" [(ngModel)]="keywords" placeholder="Ex: ACTU for ACTURSCI"><br><br>
+  <button id="but" class="button" (click)="findCourse(subject,course,component,keywords)"> Search</button><button id="allCourses" class="button" (click)="search()"> All Courses</button><button onClick="window.location.reload();">Reload Page</button>
 
   <ul class="courses" >
     <li *ngFor="let course of courses;  let i=index">

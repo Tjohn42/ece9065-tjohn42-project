@@ -23,7 +23,7 @@ export class rest {
     return this.http.get<Course[]>(this.allCourses, this.httpOptions);
 }
 
-searchCourse(subject: any, course: any, component: any)
+searchCourse(subject: any, course: any, component: any,keyword:any)
 {
 
   if (course && subject && component){
@@ -34,6 +34,9 @@ searchCourse(subject: any, course: any, component: any)
   }
   else if(subject){
     return this.http.get<Course[]>(`http://localhost:5000/api/subject/${subject}`);
+  }
+  else if(keyword){
+    return this.http.get<Course[]>(`http://localhost:5000/api/keyword/${keyword}`);
   }
   else{
     console.log("");

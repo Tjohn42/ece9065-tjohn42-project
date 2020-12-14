@@ -19,7 +19,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(expressJwt({secret: 'schedule-secret',algorithms: ['HS256']}).unless({path: ['/api/auth','/api/authGmail','/api/courses','/api/publicSchedule',{ url: /^\/api\/subject\/.*/, methods: ['GET']},
 { url: /^\/api\/courses\/.*/, methods: ['GET'] }, { url: /^\/api\/User\/.*/, methods: ['POST']}, { url: /^\/api\/gmailUser\/.*/, methods: ['POST']}, { url: /^\/confirmation\/.*/, methods: ['GET']},
-{ url: /^\/api\/getUsers\/.*/, methods: ['GET']},{ url: /^\/api\/resendEmail\/.*/, methods: ['POST']}]}));
+{ url: /^\/api\/getUsers\/.*/, methods: ['GET']},{ url: /^\/api\/keyword\/.*/, methods: ['GET']},{ url: /^\/api\/resendEmail\/.*/, methods: ['POST']}]}));
 
 const EMAIL_SECRET = 'asdf1093KMnzxcvnkljvasdu09123nlasdasdf';
 const transporter = nodemailer.createTransport({
@@ -49,10 +49,11 @@ app.post('/api/auth', function(req, res) {
         return res.send(403)
     }
     temp = result[0].Email
+    temp = temp.toUpperCase();
     const email = (temp == body.email);
     const user = result[0].Username;
     const verified = bcrypt.compareSync(body.password.toString(), result[0].Password);
-    if(!email || !verified) return res.sendStatus(401);
+    if(!email || !verified) return res.sendStatus(402);
     var token = jwt.sign({userID: email.id}, 'schedule-secret', {expiresIn: '2h'});
     if(result[0].isAdmin == 1)
     {
@@ -123,6 +124,19 @@ app.get('/api/subject/:Name', (req, res) => {
         return
     }
     const course = subject.filter(c => c.subject === req.params.Name); 
+    if (!course[0]) res.status(404).send("Not found ");
+    res.send(course);
+});
+
+app.get('/api/keyword/:keyword', (req, res) => {
+    if((req.params.keyword.length > 15) || ((typeof req.params.keyword) != "string")){
+        res.status(400).send({error: "Invalid Search Paramaters"});
+        return
+    }
+    req.params.keyword
+    const course = subject.filter(c => c.description.match(req.params.keyword));
+    course.push(subject.filter(c => c.subject.match(req.params.keyword)));
+    console.log(course);
     if (!course[0]) res.status(404).send("Not found ");
     res.send(course);
 });

@@ -20,9 +20,15 @@ export class LoginComponent {
   constructor(private auth: AuthService, private router: Router,private rs : rest) { }
 
   public submit() {
+    if(this.email == null || this.password==null){alert("Email/Password cannot be empty!");return}
     localStorage.setItem('Email', this.email);
-
-    console.log(this.email.substring(this.email.indexOf("@")));
+    this.email = this.email.trim();
+    this.email = this.email.toUpperCase();
+    this.password = this.password.trim();
+    var sanCheck = /[^a-zA-Z@._0-9]/g;
+     this.email = this.email.replace(sanCheck, "");
+    console.log(this.email);
+    
     if(this.email.substring(this.email.indexOf("@")) == "@gmail.com")
     {
       alert("Login Using Gmail Button!");
@@ -50,9 +56,11 @@ export class LoginComponent {
             this.error = 'This Account has been Suspended, Contact an Administrator: Admin@website.com'
           }
           else if(err.status == 403){
-            this.admin = true;
             this.resend = true;
             this.error = 'Please confirm your account with the email that was sent!'
+          }
+          else if(err.status == 402){
+            this.error = 'Incorrect credentials!'
 
           }
           else{

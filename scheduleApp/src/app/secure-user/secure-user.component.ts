@@ -56,6 +56,12 @@ export class SecureUserComponent implements OnInit {
     this.findComp = this.courses[j].courseComp   
   }
   submitReview(reviewInfo: any,sub: any,cour: any,com: any){
+    sub = sub.trim();
+    sub =sub.toUpperCase();
+    cour = cour.trim();
+    cour =cour.toUpperCase();
+    com = com.trim();
+    com =com.toUpperCase();
     const username = localStorage.getItem('username');
     const email = localStorage.getItem('Email');
     var reviewList= []
@@ -72,6 +78,12 @@ export class SecureUserComponent implements OnInit {
   }
 
   viewReviews(sub: any,cour: any,com: any){
+    sub = sub.trim();
+    sub =sub.toUpperCase();
+    cour = cour.trim();
+    cour =cour.toUpperCase();
+    com = com.trim();
+    com =com.toUpperCase();
     const username = localStorage.getItem('username');
    //const email = localStorage.getItem('Email');
     var getReviews= []
@@ -149,8 +161,13 @@ export class SecureUserComponent implements OnInit {
 
     findCourse(sub: any, cor: any, com: any){  
       //console.log(this.hero.subject);
+      sub = sub.trim();
+      sub =sub.toUpperCase();
+      cor = cor.trim();
+      cor =cor.toUpperCase();
+      com = com.trim();
+      com =com.toUpperCase();
       
-      console.log(sub);
       this.rs.searchCourse(sub, cor, com)?.subscribe //why error????
        (
          (response)=>
@@ -274,6 +291,7 @@ export class SecureUserComponent implements OnInit {
     saveSchedule(scheduleDB: any){
       const username = localStorage.getItem('username');
       const email = localStorage.getItem('Email');
+      scheduleDB = scheduleDB.trim();
       for(var i=0;i<this.schedule.length;i++)
       {
         this.schedule[i].ScheduleName = scheduleDB;
@@ -284,7 +302,7 @@ export class SecureUserComponent implements OnInit {
       
       this.rs.saveSchedule(this.schedule).subscribe
       (
-        (response) =>{},
+        (response) =>{alert("Schedule Savesd Succcessful!");},
         (error) => console.log(error)
      )
       
