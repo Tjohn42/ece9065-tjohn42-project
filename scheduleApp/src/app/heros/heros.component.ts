@@ -20,7 +20,7 @@ export class HerosComponent implements OnInit {
   subject =""; 
   course = "";
   component = "";
-  keywords=""
+  keywords="";
   scheduleName = "";
   year = "";
   hero: Hero = {
@@ -100,6 +100,11 @@ export class HerosComponent implements OnInit {
       com =com.toUpperCase();
       key = key.trim();
       key =key.toUpperCase();
+
+      if(key != "" && key.length < 4){
+        alert("Keyword Search must contain 4 characters!")
+        return
+      }
       
       this.rs.searchCourse(sub, cor, com,key)?.subscribe //why error????
        (

@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 export class UserRolesGuard implements CanActivate {
   constructor(private router: Router) { }
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    console.log("EHYYY",localStorage.getItem('access_token'), localStorage.getItem('admin'));
     
     if (localStorage.getItem('access_token') && localStorage.getItem('admin')=="1") {   
       return true;

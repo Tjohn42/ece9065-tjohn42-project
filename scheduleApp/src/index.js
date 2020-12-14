@@ -133,9 +133,14 @@ app.get('/api/keyword/:keyword', (req, res) => {
         res.status(400).send({error: "Invalid Search Paramaters"});
         return
     }
-    req.params.keyword
     const course = subject.filter(c => c.description.match(req.params.keyword));
-    course.push(subject.filter(c => c.subject.match(req.params.keyword)));
+    (subject.filter(c => c.subject.match(req.params.keyword))).forEach(e=>{
+        course.push(e)
+    });
+    (subject.filter(c => c.courseNum.toString().match(req.params.keyword))).forEach(e=>{
+        course.push(e)
+    });
+
     console.log(course);
     if (!course[0]) res.status(404).send("Not found ");
     res.send(course);

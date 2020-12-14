@@ -23,6 +23,7 @@ export class AdministratorComponent implements OnInit {
   course = "";
   component = "";
   scheduleName = "";
+  keywords="";
   numSch = "";
   check = 1;
   displaySch="";
@@ -31,6 +32,7 @@ export class AdministratorComponent implements OnInit {
   findCourseNum = "";
   findComp="";
   userReview ="";
+  year = "";
   showUser = localStorage.getItem('username');
   hero: Hero = {
     id: 1,
@@ -211,6 +213,28 @@ export class AdministratorComponent implements OnInit {
             this.courses[i].endTime = element.endTime;
             this.courses[i].description = element.description;
             this.courses[i].startTime = element.startTime;
+            this.year =   this.list[i].Course.toString().slice(0,1);
+      
+            switch (this.year) {
+              case "0":
+                this.schedule[i].yearTaken = "Preliminary Course";
+                break;
+              case "1":
+                this.schedule[i].yearTaken = ("1st Year Course");
+                break;
+              case "2":
+                this.schedule[i].yearTaken = "2nd Year Course";
+                break;
+              case "3":
+                this.schedule[i].yearTaken= ("3rd Year Course");
+                break;
+              case "4":
+                this.schedule[i].yearTaken = ("4th Year Course");
+                break;
+              case "5":
+                this.schedule[i].yearTaken = ("5th Year Course");
+                break;
+            }
   
              i++;
            });
@@ -220,7 +244,7 @@ export class AdministratorComponent implements OnInit {
        )
     }
 
-    findCourse(sub: any, cor: any, com: any){  
+    findCourse(sub: any, cor: any, com: any,key:any){  
       //console.log(this.hero.subject);
       sub = sub.trim();
       sub =sub.toUpperCase();
@@ -228,9 +252,16 @@ export class AdministratorComponent implements OnInit {
       cor =cor.toUpperCase();
       com = com.trim();
       com =com.toUpperCase();
+      key = key.trim();
+      key =key.toUpperCase();
+
+      if(key != "" && key.length < 4){
+        alert("Keyword Search must contain 4 characters!")
+        return
+      }
       
       console.log(sub);
-      this.rs.searchCourse(sub, cor, com)?.subscribe //why error????
+      this.rs.searchCourse(sub, cor, com,key)?.subscribe //why error????
        (
          (response)=>
          {
@@ -312,6 +343,28 @@ export class AdministratorComponent implements OnInit {
        this.schedule[i].endTime = this.list[i].EndTime;
        this.schedule[i].description = this.list[i].Description;
        this.schedule[i].startTime = this.list[i].StartTime;
+       this.year =   this.list[i].Course.toString().slice(0,1);
+      
+       switch (this.year) {
+         case "0":
+           this.schedule[i].yearTaken = "Preliminary Course";
+           break;
+         case "1":
+           this.schedule[i].yearTaken = ("1st Year Course");
+           break;
+         case "2":
+           this.schedule[i].yearTaken = "2nd Year Course";
+           break;
+         case "3":
+           this.schedule[i].yearTaken= ("3rd Year Course");
+           break;
+         case "4":
+           this.schedule[i].yearTaken = ("4th Year Course");
+           break;
+         case "5":
+           this.schedule[i].yearTaken = ("5th Year Course");
+           break;
+       }
       //this.schedule[i].Username = this.list[i].Username;
       }
       //this.schedule.push(this.list[1])

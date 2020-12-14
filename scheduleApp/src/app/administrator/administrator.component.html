@@ -6,13 +6,15 @@
     <label for="cCode">Course Code: </label><br>
     <input type="text" id="catalog" [(ngModel)]="course" placeholder="Ex: 1021B"><br>
     <label for="component">Course Component: </label><br>
-    <input type="text" id="type" [(ngModel)]="component" placeholder="Ex: LEC"><br><br>
-    <button id="but" class="button" (click)="findCourse(subject,course,component)"> Search</button><button id="allCourses" class="button" (click)="search()"> All Courses</button><button onClick="window.location.reload();">Reload Page</button>
+    <input type="text" id="type" [(ngModel)]="component" placeholder="Ex: LEC"><br>
+    <label for="keywords">Keywords: </label><br>
+    <input type="text" id="keyword" [(ngModel)]="keywords" placeholder="Ex: ACTU for ACTURSCI"><br><br>
+    <button id="but" class="button" (click)="findCourse(subject,course,component,keywords)"> Search</button><button id="allCourses" class="button" (click)="search()"> All Courses</button><button onClick="window.location.reload();">Reload Page</button>
   
     <ul class="courses">
       <li *ngFor="let course of courses;  let i=index">
         <span class="badge"> {{course.subject}} {{course.courseNum}}--{{course.description}}</span><br>Days: {{course.days}} 
-        Start Time: {{course.startTime}} End Time: {{course.endTime}} Component: {{course.courseComp}} Section: {{course.section}} <button (click)="add(courses[i])">Add to Schedule</button><button (click)="viewReviews(course.subject,course.courseNum,course.courseComp)">User Review's</button><button (click)="addReview(i)">Add Review</button>
+        Start Time: {{course.startTime}} End Time: {{course.endTime}} Component: {{course.courseComp}} Section: {{course.section}}  --- {{course.yearTaken}}<button (click)="add(courses[i])">Add to Schedule</button><button (click)="viewReviews(course.subject,course.courseNum,course.courseComp)">User Review's</button><button (click)="addReview(i)">Add Review</button>
         <ul *ngFor="let rev of reviews; let i=index;">
           <li *ngIf="(course.subject == rev.Subject) && (course.courseNum == rev.Course) && (course.courseComp == rev.Component)">
               <h3 style='display:inline'>{{rev.Username}}'s Review: </h3> <p style='display:inline'>{{rev.uReview}}</p>
@@ -37,7 +39,7 @@
         {{displaySch}}
       <li *ngFor="let sched of schedule">
         <span class="badge"> {{sched.subject}} {{sched.courseNum}}--{{sched.description}}</span><br>Days: {{sched.days}} 
-        Start Time: {{sched.startTime}} End Time: {{sched.endTime}} Component: {{sched.courseComp}} Section: {{sched.section}} <button>Remove from Schedule</button>
+        Start Time: {{sched.startTime}} End Time: {{sched.endTime}} Component: {{sched.courseComp}} Section: {{sched.section}} --- {{sched.yearTaken}}<button>Remove from Schedule</button>
       </li>
     </ul>
     <button id="toDatabase" (click)="saveSchedule(scheduleName)"> Save Schedule</button> Make Public:<input type="checkbox" (click)="change()"> <button (click)=" getSchedules()" id="show" >All Schedules</button>
