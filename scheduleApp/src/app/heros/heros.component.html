@@ -1,7 +1,5 @@
 
-<div id="courseSearch">
-  <button (click)= "search()" > Search for Class </button>
-</div>
+<br>
 <div class="intro">
   <h1>Search {{hero.subject}}</h1>
   <label for="subject">Subject: </label><br>
@@ -20,8 +18,10 @@
   </ul>
   <ol id="courseList"> </ol>
 </div>
-<div>
-  <button (click)="getSchedules()">Show Public Schedules</button>
+<br>
+<div class="public">
+  <h1>Public Schedules</h1>
+  <button (click)="getSchedules()">Show Schedules</button>
   <ul id="all"> 
     <li *ngFor="let ls of final; let i=index">
       <span class="badge"> {{ls.Username}}'s {{ls.ScheduleName}} Schedule -- Contains {{ls.NumberCourses}} Course(s). Created: {{ls.Date}}</span><button (click)="review(final[i],i)">Show Courses</button>

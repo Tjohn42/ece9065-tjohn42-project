@@ -1,6 +1,3 @@
-<div id="courseSearch">
-    <button (click)= "search()" > Search for Class </button>
-  </div>
   <div class="intro">
     <h1>Search {{hero.subject}}</h1>
     <label for="subject">Subject: </label><br>
@@ -14,20 +11,23 @@
     <ul class="courses" >
       <li *ngFor="let course of courses;  let i=index">
         <span class="badge"> {{course.subject}} {{course.courseNum}}--{{course.description}}</span><br>Days: {{course.days}} 
-        Start Time: {{course.startTime}} End Time: {{course.endTime}} Component: {{course.courseComp}} Section: {{course.section}} <button (click)="add(courses[i])">Add to Schedule</button><button (click)="viewReviews(course.subject,course.courseNum,course.courseComp)">User Review's</button><button (click)="addReview(i)">Add Review</button>
-        <ul *ngFor="let rev of reviews;  let i=index;">
+        Start Time: {{course.startTime}} End Time: {{course.endTime}} Component: {{course.courseComp}} Section: {{course.section}} <button (click)="add(courses[i])">Add to Schedule</button><button (click)="viewReviews(course.subject,course.courseNum,course.courseComp)">User Review's</button>
+        <button (click)="addReview(i)">Add Review</button>
+        <ul *ngFor="let rev of reviews; let i=index;">
             <li *ngIf="(course.subject == rev.Subject) && (course.courseNum == rev.Course) && (course.courseComp == rev.Component)">
                 <h3 style='display:inline'>{{rev.Username}}'s Review: </h3> <p style='display:inline'>{{rev.uReview}}</p>
             </li>
-            <li *ngIf="(course.subject == findSubject) && (course.courseNum == findCourseNum) && (course.courseComp == findComp)">
-                <textarea [(ngModel)]="userReview" placeholder="Max 255 Characters" rows="6" cols="70"></textarea><button (click)="submitReview(userReview,course.subject,course.courseNum,course.courseComp)">Submit</button>
-            </li> 
         </ul>
+        <ul >
+          <li *ngIf="(course.subject == findSubject) && (course.courseNum == findCourseNum) && (course.courseComp == findComp)">
+              <textarea [(ngModel)]="userReview" placeholder="Max 255 Characters" rows="6" cols="70"></textarea><button (click)="submitReview(userReview,course.subject,course.courseNum,course.courseComp)">Submit</button>
+          </li> 
+      </ul>
       </li>
     </ul>
     <ol id="courseList"> </ol>
   </div>
-  
+  <br>
   <div class="schedule">
     <h1>Schedule</h1><p id="warning">A schedule requires a name and at least 1 class</p>
     <label for="sName">Schedule Name: </label><br>

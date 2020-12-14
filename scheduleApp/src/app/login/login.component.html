@@ -1,27 +1,23 @@
 
-<h4  style='display:inline' *ngIf="error">{{error}}</h4><button style='display:inline' *ngIf="resend==true" (click)="resendEmail()">resend</button>
+<br>
+<h4 style='display:inline' *ngIf="error">{{error}}</h4><button style='display:inline' *ngIf="resend==true" (click)="resendEmail()">resend</button>
 <form (submit)="submit()">
-  <div class="form-group col-3">
-    <label for="email">Email</label>
+  <div class="container">
+    <label for="email">Email:</label>
     <input type="text" name="email" class="form-control" [(ngModel)]="email"/>
   </div>
-  <div class="form-group col-3">
-    <label for="password">Password</label>
+  <div class="container">
+    <label for="password">Password:</label>
     <input type="password" name="password" class="form-control" [(ngModel)]="password" />
   </div>
-  <div class="form-group col-3">
+  <div class="container">
     <button class="btn btn-primary" type="submit">Login</button>
   </div>
 </form>
+<button class="btn btn-primary" style='display:inline' #loginRef>
+  Login with Google
+</button>
+<br>
 <app-heros></app-heros>
-<div class="container mt-5">
-  <h2>Google Login</h2>
-  <div class="row mt-5">
-    <div class="col-md-4 mt-2 m-auto ">
-          <button class="login-Btn" #loginRef>
-            Login with Google
-          </button>
-    </div>   
-  </div>
-</div>
+
 

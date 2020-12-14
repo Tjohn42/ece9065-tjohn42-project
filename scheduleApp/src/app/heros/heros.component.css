@@ -52,4 +52,16 @@ li{
   background-color: #7FFFD4;
   
 }
+.intro{
+  border: 5px outset red;
+  background-color: lightblue;    
+  text-align: left;
+  padding: 12px 20px;
+}
+.public{
+  border: 5px outset rgb(0, 81, 255);
+  background-color: rgb(204, 173, 230);    
+  text-align: left;
+  padding: 12px 20px;
+}
 

@@ -9,7 +9,7 @@
     <input type="text" id="type" [(ngModel)]="component" placeholder="Ex: LEC"><br><br>
     <button id="but" class="button" (click)="findCourse(subject,course,component)"> Search</button><button id="allCourses" class="button" (click)="search()"> All Courses</button><button onClick="window.location.reload();">Reload Page</button>
   
-    <ul class="courses" >
+    <ul class="courses">
       <li *ngFor="let course of courses;  let i=index">
         <span class="badge"> {{course.subject}} {{course.courseNum}}--{{course.description}}</span><br>Days: {{course.days}} 
         Start Time: {{course.startTime}} End Time: {{course.endTime}} Component: {{course.courseComp}} Section: {{course.section}} <button (click)="add(courses[i])">Add to Schedule</button><button (click)="viewReviews(course.subject,course.courseNum,course.courseComp)">User Review's</button><button (click)="addReview(i)">Add Review</button>
@@ -25,7 +25,7 @@
     </ul>
     <ol id="courseList"> </ol>
   </div>
-  
+  <br>
   <div class="schedule">
     <h1>Schedule</h1><p id="warning">A schedule requires a name and at least 1 class</p>
     <label for="sName">Schedule Name: </label><br>
@@ -45,8 +45,10 @@
         </li>
       </ul>
   </div>
+  <br>
   <div class="users">
-      <button (click)="getUsers()">User Information</button>
+    <h1>User Information</h1>
+      <button (click)="getUsers()">Retrieve Data</button>
     <ul id="userList"> 
         <li *ngFor="let user of users; let i=index">
           <h3 style='display:inline'>Username: </h3> <p style='display:inline'>{{user.Username}}</p><h3 style='display:inline'> Email: </h3> <p style='display:inline'>{{user.Email}}</p>

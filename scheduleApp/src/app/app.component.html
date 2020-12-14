@@ -1,9 +1,28 @@
-    <h1>Western Course and Schedule Maker</h1>
-    <p>This is a schedule maker, log in using the login button. Have so much fun! </p>
-    <nav class="nav nav-pills">
-      <a class="nav-link" routerLink="registerUser" routerLinkActive="active" *ngIf="!auth.loggedIn">Register</a>
-      <a class="nav-link" routerLink="login" routerLinkActive="active" *ngIf="!auth.loggedIn">Login</a>
-      <a class="nav-link" (click)="logout()" href="#" *ngIf="auth.loggedIn">Logout</a>
-    </nav>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+    
+    <div class="top">
+      <h1>Western Course and Schedule Maker</h1>
+      <p>This is a schedule maker - There are three user types: Guest, Authorized and Admin. Guests may see courses and public schedules. Authorized Users
+        may create Schedules and leave reviews. Admins can edit other user previliges and hide content. Have fun! </p>
+  </div>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+      <ul class="nav navbar-nav">
+      <li><a class="nav-link" routerLink="registerUser" routerLinkActive="active" *ngIf="!auth.loggedIn">Register</a></li>
+      <li><a class="nav-link" routerLink="login" routerLinkActive="active" *ngIf="!auth.loggedIn">Login</a></li>
+      <li><a class="nav-link" (click)="logout()" href="#" *ngIf="auth.loggedIn">Logout</a></li>
+      </ul>
+    </div>
+    </nav>      
     <router-outlet></router-outlet>
 

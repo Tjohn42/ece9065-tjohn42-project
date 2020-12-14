@@ -49,6 +49,8 @@ export class SecureUserComponent implements OnInit {
 
   change(){this.check=0}
   addReview(j: any){
+    console.log(this.courses[j].subject);
+    
     this.findSubject = this.courses[j].subject;
     this.findCourseNum = this.courses[j].courseNum;
     this.findComp = this.courses[j].courseComp   
