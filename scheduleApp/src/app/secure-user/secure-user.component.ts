@@ -342,9 +342,7 @@ export class SecureUserComponent implements OnInit {
       //this.schedule.push(this.list[1])
      }
     searchDB(sch: any){
-      var email = localStorage.getItem('Email')
-      console.log(sch, email);
-      
+      var email = localStorage.getItem('Email') 
       this.rs.searchDB(sch,email).subscribe
       (
         (response)=>

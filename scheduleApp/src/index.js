@@ -16,6 +16,14 @@ app.use(express.json());
 app.use('/', express.static('static'));
 app.use(cors());
 
+const path = require('path');
+// Point to directory containing static files
+app.use(express.static(path.join(__dirname, 'dist/scheduleApp')));
+//catch all other routes to return the index file
+app.get('*', (req,res) => {
+res.sendFile(path.join(__dirname,'dist/scheduleApp/index.html'));
+});
+
 app.use(bodyParser.json());
 app.use(expressJwt({secret: 'schedule-secret',algorithms: ['HS256']}).unless({path: ['/api/auth','/api/authGmail','/api/courses','/api/publicSchedule',{ url: /^\/api\/subject\/.*/, methods: ['GET']},
 { url: /^\/api\/courses\/.*/, methods: ['GET'] }, { url: /^\/api\/User\/.*/, methods: ['POST']}, { url: /^\/api\/gmailUser\/.*/, methods: ['POST']}, { url: /^\/confirmation\/.*/, methods: ['GET']},
