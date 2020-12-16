@@ -21,7 +21,7 @@ export class Course {
         this.endTime = endTime;
         this.description = description;
         this.startTime = startTime;
-        this.yearTaken - yearTaken;
+        this.yearTaken = yearTaken;
 
     }
   }

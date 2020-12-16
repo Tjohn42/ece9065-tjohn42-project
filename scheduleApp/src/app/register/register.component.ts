@@ -7,11 +7,11 @@ import { rest } from '../rest.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
-  public username: string;
-  public password: string;
-  public email: string;
-  public error: string;
+export class RegisterComponent implements OnInit {//@ts-ignore
+  public username: string;//@ts-ignore
+  public password: string;//@ts-ignore
+  public email: string;//@ts-ignore
+  public error: string;//@ts-ignore
   public exist: string;
 
 
@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
     this.rs.registerUser(this.username,this.password,this.email).subscribe
     ( 
       (response)=>
-      {
+      {//@ts-ignore
         console.log(response.text);
         this.exist = "USER CREATED, WELCOME!"
       },

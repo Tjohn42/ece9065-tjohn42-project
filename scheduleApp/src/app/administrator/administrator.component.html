@@ -17,7 +17,7 @@
         Start Time: {{course.startTime}} End Time: {{course.endTime}} Component: {{course.courseComp}} Section: {{course.section}}  --- {{course.yearTaken}}<button (click)="add(courses[i])">Add to Schedule</button><button (click)="viewReviews(course.subject,course.courseNum,course.courseComp)">User Review's</button><button (click)="addReview(i)">Add Review</button>
         <ul *ngFor="let rev of reviews; let i=index;">
           <li *ngIf="(course.subject == rev.Subject) && (course.courseNum == rev.Course) && (course.courseComp == rev.Component)">
-              <h3 style='display:inline'>{{rev.Username}}'s Review: </h3> <p style='display:inline'>{{rev.uReview}}</p>
+              <h3 style='display:inline'>{{rev.Username}}'s Review: </h3> <p style='display:inline'>{{rev.uReview}}</p><button *ngIf="rev.hideReview==0"  title="Mark Innapropriate" (click)="hideReview(i,false)">Flag</button><button *ngIf="rev.hideReview==1"  title="Mark Safe" (click)="hideReview(i,true)">UnFlag</button>
           </li>
         </ul>
         <ul >
@@ -39,7 +39,7 @@
         {{displaySch}}
       <li *ngFor="let sched of schedule">
         <span class="badge"> {{sched.subject}} {{sched.courseNum}}--{{sched.description}}</span><br>Days: {{sched.days}} 
-        Start Time: {{sched.startTime}} End Time: {{sched.endTime}} Component: {{sched.courseComp}} Section: {{sched.section}} --- {{sched.yearTaken}}<button>Remove from Schedule</button>
+        Start Time: {{sched.startTime}} End Time: {{sched.endTime}} Component: {{sched.courseComp}} Section: {{sched.section}} --- {{sched.yearTaken}}<button (click)="removeCourse(i)">Remove from Schedule</button>
       </li>
     </ul>
     <button id="toDatabase" (click)="saveSchedule(scheduleName)"> Save Schedule</button> Make Public:<input type="checkbox" (click)="change()"> <button (click)=" getSchedules()" id="show" >All Schedules</button>

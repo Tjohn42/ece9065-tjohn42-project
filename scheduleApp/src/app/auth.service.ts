@@ -12,9 +12,11 @@ export class AuthService {
       .pipe(
         map(result => {        
           localStorage.setItem('access_token', result.token);
+          //@ts-ignore
           localStorage.setItem('username', result.user);
-          
+          //@ts-ignore
           if(result.admin == 1){
+            //@ts-ignore
             localStorage.setItem('admin', result.admin);
           }else{localStorage.setItem('admin', "0");}
           return true;

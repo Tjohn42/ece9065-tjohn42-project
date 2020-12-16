@@ -10,9 +10,9 @@ import { rest } from '../rest.service';
   styleUrls: ['./login.component.css'],
 
 })
-export class LoginComponent {
-  public email: string;
-  public password: string;
+export class LoginComponent {//@ts-ignore
+  public email: string;//@ts-ignore
+  public password: string;//@ts-ignore
   public error: string;
   admin = false;
   resend :boolean = false;
@@ -76,8 +76,8 @@ export class LoginComponent {
     console.log(username);
     this.rs.doesExist(this.email).subscribe
     (
-      (response) =>{
-         if(response.isAdmin == "1"){
+      (response) =>{//@ts-ignore
+         if(response.isAdmin == "1"){//@ts-ignore
            localStorage.setItem('admin', response.isAdmin);
           }else{
             localStorage.setItem('admin', "0");
@@ -109,7 +109,7 @@ export class LoginComponent {
      )
 
   }
-
+//@ts-ignore
   @ViewChild('loginRef', {static: true }) loginElement: ElementRef;
   auth2:any;
  ngOnInit() {
@@ -131,14 +131,14 @@ export class LoginComponent {
     (function(d, s, id){
       var js, fjs = d.getElementsByTagName(s)[0];
       if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "https://apis.google.com/js/platform.js?onload=googleSDKLoaded";
+      js = d.createElement(s); js.id = id;//@ts-ignore
+      js.src = "https://apis.google.com/js/platform.js?onload=googleSDKLoaded";//@ts-ignore
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'google-jssdk'));
   }
 
   prepareLogin() {
-    this.auth2.attachClickHandler(this.loginElement.nativeElement, {},
+    this.auth2.attachClickHandler(this.loginElement.nativeElement, {},//@ts-ignore
       (googleUser) => {
         let profile = googleUser.getBasicProfile();
         console.log('Token || ' + googleUser.getAuthResponse().id_token);
@@ -147,7 +147,7 @@ export class LoginComponent {
         if(profile.getEmail() && googleUser.getAuthResponse().id_token){
           this.email = profile.getEmail();
           this.submitGmail();
-        }
+        }//@ts-ignore
       }, (error) => {
         alert(JSON.stringify(error, undefined, 2));
       });

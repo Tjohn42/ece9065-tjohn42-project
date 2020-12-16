@@ -46,7 +46,7 @@ export class SecureUserComponent implements OnInit {
   courses : Course[] = [];
   schedule : Schedule[] = [];
   list : List[]=[];
-  final: List[]=[];
+  final: any[]=[];
   reviews: Review[]=[];
 
   change(){this.check=0}
@@ -111,7 +111,7 @@ export class SecureUserComponent implements OnInit {
    )
 
   }
-  removeCourse(i:any){
+  removeCourse(i: any){
     console.log(i);
     this.update = true;
     console.log(this.schedule[i]);
@@ -219,6 +219,28 @@ export class SecureUserComponent implements OnInit {
             this.courses[i].endTime = element.endTime;
             this.courses[i].description = element.description;
             this.courses[i].startTime = element.startTime;
+            this.year =   element.courseNum.toString().slice(0,1);
+
+            switch (this.year) {
+              case "0":
+                this.courses[i].yearTaken = "Preliminary Course";
+                break;
+              case "1":
+                this.courses[i].yearTaken = ("1st Year Course");
+                break;
+              case "2":
+                this.courses[i].yearTaken = "2nd Year Course";
+                break;
+              case "3":
+                this.courses[i].yearTaken= ("3rd Year Course");
+                break;
+              case "4":
+                this.courses[i].yearTaken = ("4th Year Course");
+                break;
+              case "5":
+                this.courses[i].yearTaken = ("5th Year Course");
+                break;
+            }
   
              i++;
            });
@@ -237,6 +259,7 @@ export class SecureUserComponent implements OnInit {
       (
         (response)=>
         {
+          //@ts-ignore
           this.list = response;
           var size =[],scheduleList=[], prev;
           for(var i=0; i< this.list.length;i++){
@@ -274,15 +297,23 @@ export class SecureUserComponent implements OnInit {
        console.log(j);
        
       for(var i=0;i<this.final[j].NumberCourses;i++){
-
+      //@ts-ignore
        this.schedule.push(this.list[i])
+       //@ts-ignore
        this.schedule[i].courseNum = this.list[i].Course;
+       //@ts-ignore
        this.schedule[i].subject = this.list[i].Subject;
+       //@ts-ignore
        this.schedule[i].courseComp = this.list[i].Component;
+       //@ts-ignore
        this.schedule[i].days = this.list[i].Days;
+       //@ts-ignore
        this.schedule[i].section = this.list[i].Section;
+       //@ts-ignore
        this.schedule[i].endTime = this.list[i].EndTime;
+       //@ts-ignore
        this.schedule[i].description = this.list[i].Description;
+       //@ts-ignore
        this.schedule[i].startTime = this.list[i].StartTime;
        this.year =   this.list[i].Course.toString().slice(0,1);
       
@@ -312,34 +343,45 @@ export class SecureUserComponent implements OnInit {
      }
     searchDB(sch: any){
       var email = localStorage.getItem('Email')
+      console.log(sch, email);
+      
       this.rs.searchDB(sch,email).subscribe
-       (
-         (response)=>
-         {
-           
-           this.schedule = response;
-           var i = 0;
-           response.forEach(element => { 
-             
-            this.schedule[i].courseNum = element.Course;
-            this.schedule[i].subject = element.Subject;
-            this.schedule[i].courseComp = element.Component;
-            this.schedule[i].days = element.Days;
-            this.schedule[i].section = element.Section;
-            this.schedule[i].endTime = element.EndTime;
-            this.schedule[i].description = element.Description;
-            this.schedule[i].startTime = element.StartTime;
-            this.schedule[i].ScheduleName = element.ScheduleName;
-            this.displaySch = element.ScheduleName + " Schedule"
-  
-             i++;
-           });
-         },
-         (error) => {
-          console.log(error)
-          this.displaySch = "Schedule Not Found"
+      (
+        (response)=>
+        {
+          //@ts-ignore
+          this.list = response;
+          var size =[],scheduleList=[], prev;
+          for(var i=0; i< this.list.length;i++){
+            if(this.list[i].ScheduleName !== prev)
+            {
+                scheduleList.push(this.list[i]);
+                size.push(1);
+            }else{
+                size[size.length-1]++;
+            }
+            prev =this.list[i].ScheduleName;
         }
-       )
+        for(var j=0; j<size.length;j++){
+            this.final.push({
+                "ScheduleName": scheduleList[j].ScheduleName,
+                "NumberCourses": size[j], 
+                "Course":"",
+                "Subject":"",
+                "Component":"",
+                "Days":"",
+                "Section":"",
+                "EndTime":"",
+                "Description":"",
+                "StartTime":"",
+                "Username":this.list[j].Username
+            })
+        }
+          console.log(this.final);
+
+        },
+        (error) => console.log(error)
+      )
       
 
     }
@@ -350,9 +392,9 @@ export class SecureUserComponent implements OnInit {
       scheduleDB = scheduleDB.trim();
       for(var i=0;i<this.schedule.length;i++)
       {
-        this.schedule[i].ScheduleName = scheduleDB;
-        this.schedule[i].Username = username;
-        this.schedule[i].Email = email;
+        this.schedule[i].ScheduleName = scheduleDB;        //@ts-ignore
+        this.schedule[i].Username = username;//@ts-ignore
+        this.schedule[i].Email = email;//@ts-ignore
         this.schedule[i].isPrivate = this.check;
       }
       

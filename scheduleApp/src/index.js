@@ -231,7 +231,7 @@ app.get('/api/schedules/:Name/:Email', (req, res) => {
     con.getConnection(function(err, connection) {
         if (err) throw err;
         console.log("Connected!");
-        connection.query(" SELECT * FROM `Schedule` WHERE `ScheduleName` ='"+`${req.params.Name}`+"' AND `Email` = '"+`${req.params.Email}`+"';",function (err, result) {
+        connection.query(" SELECT * FROM `Schedule` WHERE `ScheduleName` ='"+`${req.params.Name}`+"' AND `Email` = '"+`${req.params.Email}`+"'ORDER BY Date DESC;",function (err, result) {
         connection.release();
         if (err) throw err;
         if(!result.length){
@@ -278,7 +278,7 @@ app.get('/api/scheduleList/:userName', (req, res) => {
     con.getConnection(function(err, connection) {
         if (err) throw err;
         console.log("Connected!");
-        connection.query(" SELECT * FROM `Schedule`WHERE `Email` = ?",[getSchedule.toString()],function (err, result) {
+        connection.query(" SELECT * FROM `Schedule` WHERE `Email` = ? ORDER BY Date DESC",[getSchedule.toString()],function (err, result) {
         connection.release();
         if (err) throw err;
         var scheduleList=[], size = [], final=[],prev;
