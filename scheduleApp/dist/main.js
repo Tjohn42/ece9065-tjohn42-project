@@ -199,94 +199,93 @@ class rest {
         };
     }
     getCourse() {
-        console.log(this.httpOptions);
         return this.http.get(this.allCourses, this.httpOptions);
     }
     searchCourse(subject, course, component, keyword) {
         if (course && subject && component) {
-            return this.http.get("/api/courses/" + `${subject}` + "/" + `${course}` + "/" + `${component}`);
+            return this.http.get("http://localhost:5000/api/courses/" + `${subject}` + "/" + `${course}` + "/" + `${component}`);
         }
         else if (course && subject) {
-            return this.http.get("/api/courses/" + `${subject}` + "/" + `${course}`);
+            return this.http.get("http://localhost:5000/api/courses/" + `${subject}` + "/" + `${course}`);
         }
         else if (subject) {
-            return this.http.get(`/api/subject/${subject}`);
+            return this.http.get(`http://localhost:5000/api/subject/${subject}`);
         }
         else if (keyword) {
-            return this.http.get(`/api/keyword/${keyword}`);
+            return this.http.get(`http://localhost:5000/api/keyword/${keyword}`);
         }
         else {
             console.log("");
         }
     }
     searchDB(scheduleName, Email) {
-        return this.http.get("/api/schedules/" + `${scheduleName}` + "/" + `${Email}`, this.httpOptions);
+        return this.http.get("http://localhost:5000/api/schedules/" + `${scheduleName}` + "/" + `${Email}`, this.httpOptions);
     }
     deleteSch(schName) {
-        return this.http.delete("/api/delete/" + `${schName}`, this.httpOptions);
+        return this.http.delete("http://localhost:5000/api/delete/" + `${schName}`, this.httpOptions);
     }
     deleteAllUsers(email) {
-        return this.http.delete("/api/deleteUser/" + `${email}`, this.httpOptions);
+        return this.http.delete("http://localhost:5000/api/deleteUser/" + `${email}`, this.httpOptions);
     }
     deleteAll() {
-        return this.http.delete("/api/delete/", this.httpOptions);
+        return this.http.delete("http://localhost:5000/api/delete/", this.httpOptions);
     }
     getAllSchedules(user) {
-        return this.http.get("/api/scheduleList/" + `${user}`, this.httpOptions);
+        return this.http.get("http://localhost:5000/api/scheduleList/" + `${user}`, this.httpOptions);
     }
     registerUser(Username, Password, Email) {
-        return this.http.post("/api/User/" + `${Username}` + "/" + `${Email}` + "/" + `${Password}`, this.httpOptions);
+        return this.http.post("http://localhost:5000/api/User/" + `${Username}` + "/" + `${Email}` + "/" + `${Password}`, this.httpOptions);
     }
     registerUserGmail(Username, Email) {
-        return this.http.post("/api/gmailUser/" + `${Username}` + "/" + `${Email}`, this.httpOptions);
+        return this.http.post("http://localhost:5000/api/gmailUser/" + `${Username}` + "/" + `${Email}`, this.httpOptions);
     }
     saveSchedule(scheduleName) {
         const scheduleInfo = JSON.stringify(scheduleName);
-        return this.http.post("/api/schedule/", scheduleInfo, this.httpOptions);
+        return this.http.post("http://localhost:5000/api/schedule/", scheduleInfo, this.httpOptions);
     }
     getPublic() {
-        return this.http.get("/api/publicSchedule", this.httpOptions);
+        return this.http.get("http://localhost:5000/api/publicSchedule", this.httpOptions);
     }
     addReview(review) {
         const reviewInfo = JSON.stringify(review);
-        return this.http.post("/api/addReview/", reviewInfo, this.httpOptions);
+        return this.http.post("http://localhost:5000/api/addReview/", reviewInfo, this.httpOptions);
     }
     getReviews(username, subject, course, component) {
         //const reviewInfo = JSON.stringify(review);
         // console.log(reviewInfo);
-        return this.http.get("/api/getReviews/" + `${username}` + "/" + `${subject}` + "/" + `${course}` + "/" + `${component}`, this.httpOptions);
+        return this.http.get("http://localhost:5000/api/getReviews/" + `${username}` + "/" + `${subject}` + "/" + `${course}` + "/" + `${component}`, this.httpOptions);
     }
     getReviewsAdmin(username, subject, course, component) {
-        return this.http.get("/api/getReviewsAdmin/" + `${username}` + "/" + `${subject}` + "/" + `${course}` + "/" + `${component}`, this.httpOptions);
+        return this.http.get("http://localhost:5000/api/getReviewsAdmin/" + `${username}` + "/" + `${subject}` + "/" + `${course}` + "/" + `${component}`, this.httpOptions);
     }
     hideReview(review) {
         const reviewInfo = JSON.stringify(review);
         // console.log(reviewInfo);
-        return this.http.post("/api/flagReview", reviewInfo, this.httpOptions);
+        return this.http.post("http://localhost:5000/api/flagReview", reviewInfo, this.httpOptions);
     }
     getUser(email) {
-        return this.http.get("/api/getUsersAdmin/" + `${email}`, this.httpOptions);
+        return this.http.get("http://localhost:5000/api/getUsersAdmin/" + `${email}`, this.httpOptions);
     }
     findComments(email) {
-        return this.http.get("/api/getUsersComments/" + `${email}`, this.httpOptions);
+        return this.http.get("http://localhost:5000/api/getUsersComments/" + `${email}`, this.httpOptions);
     }
     makeAdmin(email) {
         const EmailJSON = JSON.stringify(email);
-        return this.http.post("/api/makeAdmin", EmailJSON, this.httpOptions);
+        return this.http.post("http://localhost:5000/api/makeAdmin", EmailJSON, this.httpOptions);
     }
     deactivateAccount(email) {
         const EmailJSON = JSON.stringify(email);
-        return this.http.post("/api/deactivateAccount", EmailJSON, this.httpOptions);
+        return this.http.post("http://localhost:5000/api/deactivateAccount", EmailJSON, this.httpOptions);
     }
     doesExist(email) {
-        return this.http.get("/api/getUsers/" + `${email}`, this.httpOptions);
+        return this.http.get("http://localhost:5000/api/getUsers/" + `${email}`, this.httpOptions);
     }
     resendEmail(email) {
-        return this.http.post("/api/resendEmail/" + `${email}`, this.httpOptions);
+        return this.http.post("http://localhost:5000/api/resendEmail/" + `${email}`, this.httpOptions);
     }
     updateSchedule(schedule) {
         const scheduleINFO = JSON.stringify(schedule);
-        return this.http.post("/api/updateSchedule", scheduleINFO, this.httpOptions);
+        return this.http.post("http://localhost:5000/api/updateSchedule", scheduleINFO, this.httpOptions);
     }
 }
 rest.ɵfac = function rest_Factory(t) { return new (t || rest)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"])); };
@@ -995,9 +994,8 @@ class AuthService {
         this.http = http;
     }
     login(email, password) {
-        return this.http.post('/api/auth', { email: email, password: password })
+        return this.http.post('http://localhost:5000/api/auth', { email: email, password: password })
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_1__["map"])(result => {
-            console.log("here");
             localStorage.setItem('access_token', result.token);
             //@ts-ignore
             localStorage.setItem('username', result.user);

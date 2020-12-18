@@ -18,7 +18,7 @@ export class LoginComponent {//@ts-ignore
   resend :boolean = false;
 
   constructor(private auth: AuthService, private router: Router,private rs : rest) { }
-
+  
   public submit() {
     if(this.email == null || this.password==null){alert("Email/Password cannot be empty!");return}
     localStorage.setItem('Email', this.email);

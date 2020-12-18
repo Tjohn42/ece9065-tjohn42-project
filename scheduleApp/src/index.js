@@ -13,21 +13,35 @@ var cors = require('cors');
 dotenv.config();
 
 app.use(express.json());
-app.use('/', express.static('static'));
+//app.use('/', express.static('static'));
 app.use(cors());
 
 const path = require('path');
 // Point to directory containing static files
-app.use(express.static(path.join(__dirname, 'dist/scheduleApp')));
+app.use(express.static(path.join(__dirname, '../dist/scheduleApp')));
 //catch all other routes to return the index file
-app.get('*', (req,res) => {
-res.sendFile(path.join(__dirname,'dist/scheduleApp/index.html'));
-});
 
 app.use(bodyParser.json());
-app.use(expressJwt({secret: 'schedule-secret',algorithms: ['HS256']}).unless({path: ['/api/auth','/api/authGmail','/api/courses','/api/publicSchedule',{ url: /^\/api\/subject\/.*/, methods: ['GET']},
+app.use(expressJwt({secret: 'schedule-secret',algorithms: ['HS256'],getToken: function fromCookie (req) {
+    console.log(req);
+    var token_load = jwt.sign({userID:'admin@admin.com'}, 'schedule-secret', {expiresIn: '1h'});
+    if (token_load) {
+      return token_load;
+    } 
+    return null;
+  }
+}).unless({path: ['/api/auth','/api/authGmail','/api/courses','/api/publicSchedule',{ url: /^\/api\/subject\/.*/, methods: ['GET']},
 { url: /^\/api\/courses\/.*/, methods: ['GET'] }, { url: /^\/api\/User\/.*/, methods: ['POST']}, { url: /^\/api\/gmailUser\/.*/, methods: ['POST']}, { url: /^\/confirmation\/.*/, methods: ['GET']},
 { url: /^\/api\/getUsers\/.*/, methods: ['GET']},{ url: /^\/api\/keyword\/.*/, methods: ['GET']},{ url: /^\/api\/resendEmail\/.*/, methods: ['POST']}]}));
+
+app.use(function (err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+      return res.status(403).send({
+        success: false,
+        message: 'No token provided.'
+      });
+    }
+  });
 
 const EMAIL_SECRET = 'asdf1093KMnzxcvnkljvasdu09123nlasdasdf';
 const transporter = nodemailer.createTransport({
@@ -123,6 +137,7 @@ var con = mysql.createPool({
 
 
 app.get('/api/courses', (req, res) => {
+    console.log(req.headers);
     res.send(subject);
 });
 
@@ -371,7 +386,7 @@ app.post('/api/User/:Username/:Email/:Password', (req, res) => {
                       expiresIn: '1d',
                     },
                     (err, emailToken) => {
-                      const url = `http://localhost:5000/confirmation/${emailToken}`;
+                      const url = `http://ec2-3-85-228-134.compute-1.amazonaws.com:5000/confirmation/${emailToken}`;
             
                       transporter.sendMail({
                         to: req.params.Email,
@@ -404,7 +419,7 @@ app.get('/confirmation/:token', async (req, res) => {
         if (err) throw err;
         });
       });
-    return res.redirect('http://localhost:4200/login');
+    return res.redirect('http://ec2-3-85-228-134.compute-1.amazonaws.com:5000/login');
   });
 
   app.post('/api/resendEmail/:email', (req, res) => {
@@ -417,7 +432,7 @@ app.get('/confirmation/:token', async (req, res) => {
           expiresIn: '1d',
         },
         (err, emailToken) => {
-          const url = `http://localhost:5000/confirmation/${emailToken}`;
+          const url = `http://ec2-3-85-228-134.compute-1.amazonaws.com:5000/confirmation/${emailToken}`;
 
           transporter.sendMail({
             to: req.params.email,
@@ -595,6 +610,10 @@ app.get('/api/getUsers/:Email', (req, res) => {
         }
       });
     res.send(req.body);
+});
+
+app.get('*', (req,res) => {
+res.sendFile(path.join(__dirname,'../dist/scheduleApp/index.html'));
 });
 
 //PORT
